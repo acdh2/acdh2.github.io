@@ -1,0 +1,36 @@
+<html>
+<head>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+        }
+
+        #flash-container {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        window.RufflePlayer = window.RufflePlayer || {};
+
+        window.addEventListener("DOMContentLoaded", () => {
+            let ruffle = window.RufflePlayer.newest();
+            let player = ruffle.createPlayer();
+            player.style.width = "100vw"; 
+            player.style.height = "100vh";
+            let container = document.getElementById("flash-container");
+            container.appendChild(player);
+            player.ruffle().load("machinations.swf");
+        });
+    </script>
+    <script src="ruffle.js"></script>
+
+    <div id="flash-container"></div>
+</body>
+</html>
