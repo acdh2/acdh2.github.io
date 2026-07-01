@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Changer</title>
+    <style>
+        body {
+            background-color: #222222;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: sans-serif;
+            transition: background-color 0.3s ease;
+        }
+        .color-btn {
+            width: 50vw;
+            height: 50vh;
+            font-size: 2rem;
+            font-weight: bold;
+            color: #222222;
+            background-color: #ffffff;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+        .color-btn:active {
+            transform: scale(0.98);
+        }
+    </style>
+</head>
+<body>
+
+    <button class="color-btn" onclick="changeColor()">Verander Kleur</button>
+
+    <script>
+        function changeColor() {
+            const colors = ['#ff4757', '#2ed573', '#1e90ff', '#ffa502', '#9b59b6', '#34495e', '#00d2d3'];
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+            document.body.style.backgroundColor = randomColor;
+        }
+    </script>
+</body>
+</html>
