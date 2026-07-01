@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<widget xmlns="http://www.w3.org/ns/widgets" xmlns:tizen="http://tizen.org/ns/widgets" id="http://yourdomain/MyPWA" version="1.0.0" viewmodes="fullscreen">
+    <name>Mijn Tizen Webapp</name>
+    <icon src="icon-192.png"/>
+    <content src="index.html"/>
+    <feature name="http://tizen.org/feature/screen.size.all"/>
+    <preference name="tizen-manifest-version" value="2.3"/>
+</widget>
