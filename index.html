@@ -1,46 +1,90 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Digiboard Navigatie</title>
-    <style>
-        body {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f0f0f0;
-        }
-        .block {
-            width: 200px;
-            height: 200px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            font-family: sans-serif;
-            font-size: 24px;
-            font-weight: bold;
-            text-decoration: none;
-            border-radius: 12px;
-            user-select: none;
-            cursor: pointer;
-        }
-        .red {
-            background-color: #e74c3c;
-        }
-        .green {
-            background-color: #2ecc71;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IDT Cirkel</title>
+  <style>
+    :root {
+      --bg-canvas: #8cd0ea;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-canvas);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .wheel-wrapper {
+      width: 50vw;
+      height: 50vw;
+      max-width: 600px;
+      max-height: 600px;
+      position: relative;
+    }
+
+    svg.wheel-svg {
+      width: 100%;
+      height: 100%;
+      filter: drop-shadow(0 6px 12px rgba(0,0,0,0.15));
+    }
+
+    .wheel-segment {
+      transition: transform 0.2s, filter 0.2s;
+      transform-origin: 200px 200px;
+      cursor: pointer;
+    }
+
+    .wheel-segment:hover {
+      filter: brightness(1.08);
+      transform: scale(1.02);
+    }
+  </style>
 </head>
 <body>
 
-    <a href="https://sites.google.com/view/labtoolkit/page1" target="_top" class="block red">Page 1</a>
-    <a href="https://sites.google.com/view/labtoolkit/page2" target="_top" class="block red">Page 2</a>
+  <div class="wheel-wrapper">
+    <svg class="wheel-svg" viewBox="0 0 400 400">
+      <g transform="rotate(-90 200 200)">
+        <!-- 1. Geel (Bovenaan) -> page1 -->
+        <a href="https://sites.google.com/view/labtoolkit/page1" target="_top">
+          <path class="wheel-segment" fill="#fed100" d="M 200 200 L 200 20 A 180 180 0 0 1 371.19 144.38 Z"/>
+        </a>
+
+        <!-- 2. Oranje -> page2 -->
+        <a href="https://sites.google.com/view/labtoolkit/page2" target="_top">
+          <path class="wheel-segment" fill="#f59c23" d="M 200 200 L 371.19 144.38 A 180 180 0 0 1 305.80 345.62 Z"/>
+        </a>
+
+        <!-- 3. Blauw -> page3 -->
+        <a href="https://sites.google.com/view/labtoolkit/page3" target="_top">
+          <path class="wheel-segment" fill="#89cbe6" d="M 200 200 L 305.80 345.62 A 180 180 0 0 1 94.20 345.62 Z"/>
+        </a>
+
+        <!-- 4. Groen -> page4 -->
+        <a href="https://sites.google.com/view/labtoolkit/page4" target="_top">
+          <path class="wheel-segment" fill="#0a9b6c" d="M 200 200 L 94.20 345.62 A 180 180 0 0 1 28.81 144.38 Z"/>
+        </a>
+
+        <!-- 5. Magenta -> page5 -->
+        <a href="https://sites.google.com/view/labtoolkit/page5" target="_top">
+          <path class="wheel-segment" fill="#c81358" d="M 200 200 L 28.81 144.38 A 180 180 0 0 1 200 20 Z"/>
+        </a>
+      </g>
+
+      <!-- Witte binnencirkel -->
+      <circle cx="200" cy="200" r="75" fill="#ffffff" />
+    </svg>
+  </div>
 
 </body>
 </html>
