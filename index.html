@@ -7,6 +7,7 @@
   <style>
     :root {
       --bg-canvas: #8cd0ea;
+      --text-color: #333333;
     }
 
     * {
@@ -19,23 +20,52 @@
       background-color: var(--bg-canvas);
       min-height: 100vh;
       display: flex;
-      justify-content: center;
+      flex-direction: column;
       align-items: center;
+      justify-content: flex-start;
       padding: 20px;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .header-container {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .logo {
+      height: 60px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .title {
+      font-size: 2rem;
+      font-weight: bold;
+      /*color: var(--text-color);*/
+      color: #ffffff;
+      text-align: center;
+      flex-grow: 1;
+      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.7));      
     }
 
     .wheel-wrapper {
-      width: 50vw;
-      height: 50vw;
-      max-width: 600px;
-      max-height: 600px;
+      width: 80vw;
+      height: 80vw;
+      max-width: 550px;
+      max-height: 550px;
       position: relative;
+      margin-top: 20px;
     }
 
     svg.wheel-svg {
       width: 100%;
       height: 100%;
       filter: drop-shadow(0 6px 12px rgba(0,0,0,0.15));
+      overflow: visible;
     }
 
     .wheel-segment {
@@ -44,47 +74,87 @@
       cursor: pointer;
     }
 
-    .wheel-segment:hover {
+    .segment-link:hover .wheel-segment {
       filter: brightness(1.08);
       transform: scale(1.02);
+    }
+
+    .segment-link:hover .segment-text {
+      font-weight: bold;
+    }
+
+    .segment-text {
+      font-size: 15px;
+      font-weight: bold;
+      fill: #ffffff;
+      text-anchor: middle;
+      dominant-baseline: central;
+      pointer-events: none;
+      font-family: Arial, sans-serif;
+      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.7));
     }
   </style>
 </head>
 <body>
 
-  <div class="wheel-wrapper">
+  <header class="header-container">
+    <img src="logo1.png" alt="Logo Links" class="logo" onerror="this.style.visibility='hidden'">
+    <h1 class="title">Waar zit je in het ontwerpproces?</h1>
+    <img src="logo2.png" alt="Logo Rechts" class="logo" onerror="this.style.visibility='hidden'">
+  </header>
+
+  <main class="wheel-wrapper">
     <svg class="wheel-svg" viewBox="0 0 400 400">
-      <g transform="rotate(-90 200 200)">
-        <!-- 1. Geel (Bovenaan) -> page1 -->
-        <a href="https://sites.google.com/view/labtoolkit/page1" target="_top">
-          <path class="wheel-segment" fill="#fed100" d="M 200 200 L 200 20 A 180 180 0 0 1 371.19 144.38 Z"/>
-        </a>
+      <defs>
+        <g id="wheel-paths">
+          <!-- 1. Geel -> page1.html -->
+          <a href="page1.html" class="segment-link" target="_top">
+            <path class="wheel-segment" fill="#fed100" d="M 200 200 L 28.81 144.38 A 180 180 0 0 1 200 20 Z"/>
+          </a>
+          <!-- 2. Oranje -> page2.html -->
+          <a href="page2.html" class="segment-link" target="_top">
+            <path class="wheel-segment" fill="#f59c23" d="M 200 200 L 200 20 A 180 180 0 0 1 371.19 144.38 Z"/>
+          </a>
+          <!-- 3. Magenta -> page3.html -->
+          <a href="page3.html" class="segment-link" target="_top">
+            <path class="wheel-segment" fill="#c81358" d="M 200 200 L 371.19 144.38 A 180 180 0 0 1 305.80 345.62 Z"/>
+          </a>
+          <!-- 4. Blauw -> page3.html -->
+          <a href="page4.html" class="segment-link" target="_top">
+            <path class="wheel-segment" fill="#50a0ff" d="M 200 200 L 305.80 345.62 A 180 180 0 0 1 94.20 345.62 Z"/>
+          </a>
+          <!-- 4. Groen -> page4.html -->
+          <a href="page4.html" class="segment-link" target="_top">
+            <path class="wheel-segment" fill="#0a9b6c" d="M 200 200 L 94.20 345.62 A 180 180 0 0 1 28.81 144.38 Z"/>
+          </a>
+        </g>
+      </defs>
 
-        <!-- 2. Oranje -> page2 -->
-        <a href="https://sites.google.com/view/labtoolkit/page2" target="_top">
-          <path class="wheel-segment" fill="#f59c23" d="M 200 200 L 371.19 144.38 A 180 180 0 0 1 305.80 345.62 Z"/>
-        </a>
-
-        <!-- 3. Blauw -> page3 -->
-        <a href="https://sites.google.com/view/labtoolkit/page3" target="_top">
-          <path class="wheel-segment" fill="#89cbe6" d="M 200 200 L 305.80 345.62 A 180 180 0 0 1 94.20 345.62 Z"/>
-        </a>
-
-        <!-- 4. Groen -> page4 -->
-        <a href="https://sites.google.com/view/labtoolkit/page4" target="_top">
-          <path class="wheel-segment" fill="#0a9b6c" d="M 200 200 L 94.20 345.62 A 180 180 0 0 1 28.81 144.38 Z"/>
-        </a>
-
-        <!-- 5. Magenta -> page5 -->
-        <a href="https://sites.google.com/view/labtoolkit/page5" target="_top">
-          <path class="wheel-segment" fill="#c81358" d="M 200 200 L 28.81 144.38 A 180 180 0 0 1 200 20 Z"/>
-        </a>
-      </g>
+      <use href="#wheel-paths" />
 
       <!-- Witte binnencirkel -->
       <circle cx="200" cy="200" r="75" fill="#ffffff" />
+
+      <!-- Tekstlaag (recht geplaatst in het midden van elk segment) -->
+      <g id="wheel-texts">
+        <a href="page1.html" class="segment-link">
+          <text x="273.5" y="99.1" class="segment-text">Definiëren</text>
+        </a>
+        <a href="page2.html" class="segment-link">
+          <text x="302.2" y="238.6" class="segment-text">Idee</text>
+        </a>
+        <a href="page3.html" class="segment-link">
+          <text x="200" y="325" class="segment-text">Prototype</text>
+        </a>
+        <a href="page4.html" class="segment-link">
+          <text x="97.8" y="238.6" class="segment-text">Testen</text>
+        </a>
+        <a href="page5.html" class="segment-link">
+          <text x="126.5" y="99.1" class="segment-text">Inleven</text>
+        </a>
+      </g>
     </svg>
-  </div>
+  </main>
 
 </body>
 </html>
