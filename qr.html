@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QR Code Pagina</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #8cd0ea;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .header-container {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .logo {
+      height: 60px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .logo-right {
+      justify-self: end;
+    }
+
+    .title-text {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #ffffff;
+      text-align: center;
+      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.7)); 
+    }
+
+    .qr-wrapper {
+      width: 80vw;
+      height: 80vw;
+      max-width: 400px;
+      max-height: 400px;
+      margin-top: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #ffffff;
+      padding: 20px;
+      border-radius: 16px;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+    }
+
+    #qrcode img, #qrcode canvas {
+      max-width: 100%;
+      max-height: 100%;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header-container">
+    <img src="logo1.png" alt="Logo Links" class="logo" onerror="this.style.visibility='hidden'">
+    <div id="target-link" class="title-text">https://example.com</div>
+    <img src="logo2.png" alt="Logo Rechts" class="logo logo-right" onerror="this.style.visibility='hidden'">
+  </header>
+
+  <main class="qr-wrapper">
+    <div id="qrcode"></div>
+  </main>
+
+  <script>
+    const targetUrl = document.getElementById('target-link').innerText;
+
+    new QRCode(document.getElementById('qrcode'), {
+      text: targetUrl,
+      width: 300,
+      height: 300,
+      colorDark : "#000000",
+      colorLight : "#ffffff",
+      correctLevel : QRCode.CorrectLevel.H
+    });
+  </script>
+
+</body>
+</html>
