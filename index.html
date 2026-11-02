@@ -10,60 +10,44 @@
 
   <header class="header-container">
     <img src="logo1.png" alt="Logo Links" class="logo" onerror="this.style.visibility='hidden'">
-    <h1 class="title-text">Waar zit je in het ontwerpproces?</h1>
+    <h1 class="title-text">Waar in het ontwerpproces zit jij?</h1>
     <img src="logo2.png" alt="Logo Rechts" class="logo logo-right" onerror="this.style.visibility='hidden'">
   </header>
 
   <main class="wheel-wrapper">
     <svg class="wheel-svg" viewBox="0 0 400 400">
-      <defs>
-        <g id="wheel-paths">
-          <!-- Geel (Inleven) -> page5.html -->
-          <a href="page5.html" class="segment-link" target="_top">
-            <path class="wheel-segment" fill="#fed100" d="M 200 200 L 28.81 144.38 A 180 180 0 0 1 200 20 Z"/>
-          </a>
-          <!-- Oranje (Definiëren) -> page1.html -->
-          <a href="page1.html" class="segment-link" target="_top">
-            <path class="wheel-segment" fill="#f59c23" d="M 200 200 L 200 20 A 180 180 0 0 1 371.19 144.38 Z"/>
-          </a>
-          <!-- Magenta (Idee) -> page2.html -->
-          <a href="page2.html" class="segment-link" target="_top">
-            <path class="wheel-segment" fill="#c81358" d="M 200 200 L 371.19 144.38 A 180 180 0 0 1 305.80 345.62 Z"/>
-          </a>
-          <!-- Blauw (Prototype) -> page3.html -->
-          <a href="page3.html" class="segment-link" target="_top">
-            <path class="wheel-segment" fill="#50a0ff" d="M 200 200 L 305.80 345.62 A 180 180 0 0 1 94.20 345.62 Z"/>
-          </a>
-          <!-- Groen (Testen) -> page4.html -->
-          <a href="page4.html" class="segment-link" target="_top">
-            <path class="wheel-segment" fill="#0a9b6c" d="M 200 200 L 94.20 345.62 A 180 180 0 0 1 28.81 144.38 Z"/>
-          </a>
-        </g>
-      </defs>
+      <!-- Witte rand rond het wiel -->
+      <circle cx="200" cy="200" r="187" fill="#ffffff" />
 
-      <use href="#wheel-paths" />
+      <!-- De vijf fasen, met de klok mee vanaf boven -->
+      <a href="page1.html" class="segment-link">
+        <path class="wheel-segment" fill="#fcdc0e" d="M 200 200 L 200 20 A 180 180 0 0 1 371.19 144.38 Z"/>
+      </a>
+      <a href="page2.html" class="segment-link">
+        <path class="wheel-segment" fill="#f2aa28" d="M 200 200 L 371.19 144.38 A 180 180 0 0 1 305.80 345.62 Z"/>
+      </a>
+      <a href="page3.html" class="segment-link">
+        <path class="wheel-segment" fill="#96d0e6" d="M 200 200 L 305.80 345.62 A 180 180 0 0 1 94.20 345.62 Z"/>
+      </a>
+      <a href="page4.html" class="segment-link">
+        <path class="wheel-segment" fill="#0a997d" d="M 200 200 L 94.20 345.62 A 180 180 0 0 1 28.81 144.38 Z"/>
+      </a>
+      <a href="page5.html" class="segment-link">
+        <path class="wheel-segment" fill="#cf0852" d="M 200 200 L 28.81 144.38 A 180 180 0 0 1 200 20 Z"/>
+      </a>
 
-      <!-- Witte binnencirkel -->
-      <circle cx="200" cy="200" r="75" fill="#ffffff" />
+      <!-- Witte binnencirkel met "Je bevindt je hier" -->
+      <circle cx="200" cy="200" r="65" fill="#ffffff" />
+      <path class="wheel-pin" d="M 200 211 C 190 199 176 190 176 178 A 24 24 0 1 1 224 178 C 224 190 210 199 200 211 Z" />
+      <circle cx="200" cy="178" r="10.5" fill="#ffffff" />
+      <text x="200" y="224" class="wheel-hier">Je bevindt je hier</text>
 
-      <!-- Tekstlaag (recht geplaatst in het midden van elk segment) -->
-      <g id="wheel-texts">
-        <a href="page1.html" class="segment-link">
-          <text x="273.5" y="99.1" class="segment-text">Definiëren</text>
-        </a>
-        <a href="page2.html" class="segment-link">
-          <text x="302.2" y="238.6" class="segment-text">Idee</text>
-        </a>
-        <a href="page3.html" class="segment-link">
-          <text x="200" y="325" class="segment-text">Prototype</text>
-        </a>
-        <a href="page4.html" class="segment-link">
-          <text x="97.8" y="238.6" class="segment-text">Testen</text>
-        </a>
-        <a href="page5.html" class="segment-link">
-          <text x="126.5" y="99.1" class="segment-text">Inleven</text>
-        </a>
-      </g>
+      <!-- Teksten in het midden van elk segment (klikken gaat naar het segment eronder) -->
+      <text x="270" y="103.7" class="segment-text"><tspan x="270" dy="-13">Doelgroep</tspan><tspan x="270" dy="26">ontdekken</tspan></text>
+      <text x="313.2" y="236.8" class="segment-text"><tspan x="313.2" dy="-13">Kaders</tspan><tspan x="313.2" dy="26">stellen</tspan></text>
+      <text x="200" y="319" class="segment-text"><tspan x="200" dy="-13">Idee</tspan><tspan x="200" dy="26">bedenken</tspan></text>
+      <text x="86.8" y="236.8" class="segment-text"><tspan x="86.8" dy="-13">Ontwerp</tspan><tspan x="86.8" dy="26">testen</tspan></text>
+      <text x="130" y="103.7" class="segment-text"><tspan x="130" dy="-13">Ontwerp</tspan><tspan x="130" dy="26">bewijzen</tspan></text>
     </svg>
   </main>
 
