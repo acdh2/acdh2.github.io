@@ -89,6 +89,12 @@ body {
   right: var(--logo-marge);
 }
 
+/* Fase-aanwijzer: ligt precies over het IDT-logo, de pin steekt erbuiten */
+.logo-aanwijzer {
+  overflow: visible;
+  pointer-events: none;
+}
+
 .title-text {
   font-size: 2rem;
   font-weight: normal;

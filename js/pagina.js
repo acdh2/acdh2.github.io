@@ -52,6 +52,8 @@
     if (FASES[pad[i]]) { faseIndex = i; break; }
   }
   var fase = faseIndex >= 0 ? FASES[pad[faseIndex]] : { naam: '', kleur: '#ffffff' };
+  // Plek van de fase in het wiel: 0 = bovenaan, daarna met de klok mee
+  var fasePlek = faseIndex >= 0 ? Object.keys(FASES).indexOf(pad[faseIndex]) : -1;
   var sectie = faseIndex >= 0 && faseIndex < pad.length - 2 ? maakNaam(pad[pad.length - 2]) : '';
 
   var root = document.documentElement;
@@ -110,6 +112,44 @@
     return img;
   }
 
+  function maakSvg(tag, attributen) {
+    var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+    for (var naam in attributen) el.setAttribute(naam, attributen[naam]);
+    return el;
+  }
+
+  // Aanwijzer over het IDT-logo: het stuk van de grijze ring van deze fase
+  // in de fasekleur, met de rode pin uit het wiel ("je bevindt je hier").
+  // Maten in de eenheden van logo1.svg (127 breed, ring van straal 32.5 tot 63.5).
+  function maakAanwijzer() {
+    var m = 63.5, buiten = 63.5, binnen = 32.5;
+    var van = (-90 + 72 * fasePlek) * Math.PI / 180;
+    var tot = van + 72 * Math.PI / 180;
+    var midden = (van + tot) / 2;
+    function punt(straal, hoek) {
+      return (m + straal * Math.cos(hoek)).toFixed(2) + ' ' + (m + straal * Math.sin(hoek)).toFixed(2);
+    }
+
+    var svg = maakSvg('svg', { 'class': 'logo logo-aanwijzer', viewBox: '0 0 127 127', 'aria-hidden': 'true' });
+    svg.appendChild(maakSvg('path', {
+      fill: fase.kleur,
+      d: 'M ' + punt(buiten, van) + ' A ' + buiten + ' ' + buiten + ' 0 0 1 ' + punt(buiten, tot) +
+         ' L ' + punt(binnen, tot) + ' A ' + binnen + ' ' + binnen + ' 0 0 0 ' + punt(binnen, van) + ' Z'
+    }));
+
+    // Pin met de punt in het gekleurde vlak, de kop naar buiten gericht
+    var pin = maakSvg('g', {
+      transform: 'translate(' + punt(48, midden) + ') rotate(' + (midden * 180 / Math.PI + 90) + ') scale(1.4)'
+    });
+    pin.appendChild(maakSvg('path', {
+      fill: '#bd1520',
+      d: 'M 0 0 C -6 -7 -13 -12 -13 -20 A 13 13 0 1 1 13 -20 C 13 -12 6 -7 0 0 Z'
+    }));
+    pin.appendChild(maakSvg('circle', { cx: 0, cy: -20, r: 5.5, fill: '#ffffff' }));
+    svg.appendChild(pin);
+    return svg;
+  }
+
   // Haalt een element uit de pagina. Blijft er een lege ouder over
   // (bijvoorbeeld een <p> rond een <img>), dan verdwijnt die ook.
   function haalWeg(el) {
@@ -131,6 +171,7 @@
 
     var kop = maak('header', 'header-container');
     kop.append(maakLogo('logo1.svg', 'logo'), vlak, maakLogo('logo2.svg', 'logo logo-right'));
+    if (fasePlek >= 0) kop.appendChild(maakAanwijzer());
     return kop;
   }
 
