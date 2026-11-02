@@ -16,9 +16,16 @@
   --text-color: #333333;
   /* Breedte van de inhoud: volledig scherm, maar nooit breder dan 9:16 (portret) */
   --page-width: min(100vw, 100vh * 9 / 16);
-  /* Grootte van de logo's; de marge rondom is de helft daarvan */
-  --logo-size: 3.5rem;
+  /* Marge rond de inhoud van de pagina */
+  --rand: 1.75rem;
+  /* Grootte van de logo's: schaalt mee met het hele scherm (zoals in het
+     ontwerp: ca. 7% van de breedte of 12% van de hoogte), maar nooit kleiner
+     dan 3.5rem. De marge tot de schermrand is een half logo. */
+  --logo-min: 3.5rem;
+  --logo-size: max(var(--logo-min), min(7vw, 12.3vh));
   --logo-marge: calc(var(--logo-size) / 2);
+  /* Hoogte van de kopregel incl. marges: alles daaronder is vrij voor inhoud */
+  --kop-hoogte: calc(var(--logo-size) + 2 * var(--logo-marge));
 }
 
 @supports (height: 100dvh) {
@@ -46,29 +53,32 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: var(--logo-marge);
+  padding: var(--rand);
   font-family: Arial, Helvetica, sans-serif;
 }
 
-/* Kopregel: logo's vast in de hoeken, titel vrij in het midden.
-   Tussen titel en logo blijft minimaal een half logo ruimte. */
+/* Kopregel: titel in het midden, op dezelfde hoogte als de logo's.
+   Overlapt de kolom met de logo's (staand scherm, mobiel), dan blijft er
+   ruimte vrij zodat er minimaal een half logo tussen titel en logo zit. */
 .header-container {
-  position: relative;
   width: 100%;
   max-width: var(--page-width);
   min-height: var(--logo-size);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 calc(var(--logo-size) + var(--logo-marge));
+  margin-top: calc(var(--logo-marge) - var(--rand));
   margin-bottom: var(--logo-marge);
+  padding: 0 max(0px, calc(var(--logo-size) + 2 * var(--logo-marge) - max(var(--rand), (100vw - var(--page-width)) / 2)));
 }
 
-/* Beide logo's krijgen hetzelfde vierkante vlak, zodat ze even groot ogen */
+/* Logo's staan los van de rest, in de hoeken van het scherm,
+   een half logo van de boven- en zijkant. Beide krijgen hetzelfde
+   vierkante vlak, zodat ze even groot ogen. */
 .logo {
   position: absolute;
-  top: 0;
-  left: 0;
+  top: var(--logo-marge);
+  left: var(--logo-marge);
   width: var(--logo-size);
   height: var(--logo-size);
   object-fit: contain;
@@ -76,7 +86,7 @@ body {
 
 .logo-right {
   left: auto;
-  right: 0;
+  right: var(--logo-marge);
 }
 
 .title-text {
@@ -95,7 +105,7 @@ body {
 }
 
 @media (max-width: 600px) {
-  :root { --logo-size: 2.75rem; }
+  :root { --logo-min: 2.75rem; }
   .title-text { font-size: 1.4rem; }
 }
 
@@ -104,7 +114,7 @@ body {
 
 /* Het wiel vult de breedte, maar past ook altijd in de hoogte onder de header */
 .wheel-wrapper {
-  --wheel-size: min(calc(var(--page-width) * 0.85), calc(100vh - 9rem));
+  --wheel-size: min(calc(var(--page-width) * 0.85), calc(100vh - var(--kop-hoogte) - 1.25rem - var(--rand)));
   width: var(--wheel-size);
   height: var(--wheel-size);
   position: relative;
@@ -315,7 +325,7 @@ body.infopagina {
 }
 
 .qr-wrapper {
-  --qr-size: min(calc(var(--page-width) * 0.75), calc(100vh - 12rem));
+  --qr-size: min(calc(var(--page-width) * 0.75), calc(100vh - var(--kop-hoogte) - 2.5rem - var(--rand)));
   width: var(--qr-size);
   height: var(--qr-size);
   margin-top: 2.5rem;
