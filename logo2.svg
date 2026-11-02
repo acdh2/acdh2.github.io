@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 113 114">
+  <!-- IKI-logo: witte rand, lichtblauw vlak met IKI, geel en magenta blok -->
+  <rect width="113" height="114" fill="#ffffff"/>
+  <rect x="4" y="5" width="105" height="51" fill="#abd2e5"/>
+  <rect x="4" y="57.5" width="52.8" height="52" fill="#f2dc4a"/>
+  <rect x="56.8" y="57.5" width="52.2" height="52" fill="#c82c55"/>
+  <g fill="#030201">
+    <!-- I -->
+    <rect x="13" y="10" width="9" height="41"/>
+    <!-- K: staander en twee schuine vlakken -->
+    <rect x="31" y="10" width="11" height="41"/>
+    <polygon points="50,10 67,10 50,27.5"/>
+    <polygon points="50,30.5 66,51 50,51"/>
+    <polygon points="77,10 85,10 85,51 78,51 60.8,29"/>
+    <!-- I -->
+    <rect x="94" y="10" width="5" height="41"/>
+  </g>
+</svg>

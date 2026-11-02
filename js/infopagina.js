@@ -107,9 +107,9 @@
     // Kopregel met logo's
     var kop = maak('header', 'header-container');
     kop.append(
-      maakLogo('logo1.png', 'logo'),
+      maakLogo('logo1.svg', 'logo'),
       maak('div', 'title-text', titelTekst),
-      maakLogo('logo2.png', 'logo logo-right')
+      maakLogo('logo2.svg', 'logo logo-right')
     );
 
     // Blok 1: afbeelding, met een grijs vlak als die ontbreekt of niet laadt

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 127 127">
+  <!-- IDT-logo: grijze cirkel, witte binnencirkel, letters IDT -->
+  <circle cx="63.5" cy="63.5" r="63.5" fill="#b2b2b0"/>
+  <circle cx="63.5" cy="63.5" r="32.5" fill="#ffffff"/>
+  <g fill="#1d1d1b">
+    <!-- I -->
+    <rect x="41" y="52" width="4" height="22"/>
+    <!-- D -->
+    <path fill-rule="evenodd" d="M50 52 H60 C66 52 69 56.5 69 63 C69 69.5 66 74 60 74 H50 Z M54 55.2 H60 C63.5 55.2 65 58.5 65 63 C65 67.5 63.5 70.8 60 70.8 H54 Z"/>
+    <!-- T -->
+    <rect x="72" y="52" width="17" height="3.2"/>
+    <rect x="78.6" y="52" width="3.8" height="22"/>
+  </g>
+</svg>
