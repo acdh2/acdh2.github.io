@@ -5,6 +5,12 @@
    Aan de naam van de map ziet dit script bij welke fase een pagina
    hoort (titel bovenin en kleur).
 
+   Een fasemap kan ook een eigen map bevatten voor een groter onderwerp
+   met deelonderwerpen, bijvoorbeeld ontwerp-bewijzen/vectorworks-gebruiken/.
+   Die map werkt hetzelfde (index.html is het overzicht), en de naam
+   ervan komt klein onder de fasenaam bovenin
+   ("vectorworks-gebruiken" wordt "Vectorworks gebruiken").
+
    Er zijn twee soorten pagina's:
 
    1. Overzicht (index.html in een fasemap)
@@ -38,8 +44,15 @@
   var basis = document.currentScript.src.replace(/js\/[^\/]*$/, '');
   var pad = decodeURIComponent(location.pathname).split('/');
   var bestand = pad[pad.length - 1];
-  var fase = FASES[pad[pad.length - 2]] || { naam: '', kleur: '#ffffff' };
   var isOverzicht = bestand === '' || bestand === 'index.html';
+
+  // Zoek de fasemap in het pad; een map daaronder is een sectie
+  var faseIndex = -1;
+  for (var i = pad.length - 2; i >= 0; i--) {
+    if (FASES[pad[i]]) { faseIndex = i; break; }
+  }
+  var fase = faseIndex >= 0 ? FASES[pad[faseIndex]] : { naam: '', kleur: '#ffffff' };
+  var sectie = faseIndex >= 0 && faseIndex < pad.length - 2 ? maakNaam(pad[pad.length - 2]) : '';
 
   var root = document.documentElement;
 
@@ -83,6 +96,12 @@
     return el;
   }
 
+  // "vectorworks-gebruiken" wordt "Vectorworks gebruiken"
+  function maakNaam(mapnaam) {
+    var naam = mapnaam.replace(/-/g, ' ');
+    return naam.charAt(0).toUpperCase() + naam.slice(1);
+  }
+
   function maakLogo(bestand, klasse) {
     var img = maak('img', klasse);
     img.src = basis + bestand;
@@ -104,13 +123,14 @@
   }
 
   // Kopregel: logo's in de hoeken, gekleurd vlak met de naam van de fase
+  // en eventueel daaronder de naam van de sectie
   function maakKop(titel) {
+    var vlak = maak('div', 'title-text fase-titel');
+    vlak.appendChild(maak('div', '', titel));
+    if (sectie) vlak.appendChild(maak('div', 'fase-sectie', sectie));
+
     var kop = maak('header', 'header-container');
-    kop.append(
-      maakLogo('logo1.svg', 'logo'),
-      maak('div', 'title-text fase-titel', titel),
-      maakLogo('logo2.svg', 'logo logo-right')
-    );
+    kop.append(maakLogo('logo1.svg', 'logo'), vlak, maakLogo('logo2.svg', 'logo logo-right'));
     return kop;
   }
 
@@ -160,7 +180,9 @@
     });
 
     body.textContent = '';
-    body.append(maakKop(titelTekst), tegels, maakTerug(basis + 'index.html'));
+    // Terug naar het wiel, of vanuit een sectie naar het overzicht van de fase
+    var terug = sectie ? '../index.html' : basis + 'index.html';
+    body.append(maakKop(fase.naam || titelTekst), tegels, maakTerug(terug));
   }
 
   // ---------- Onderwerp: titel, afbeelding, tekst en eventueel QR-code ----------
