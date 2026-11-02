@@ -129,7 +129,20 @@ body {
 
 /* Achtergrond licht op rond het wiel */
 body.startpagina {
-  background-image: radial-gradient(circle at 50% 35%, var(--bg-midden) 0%, #a3cae6 35%, var(--bg-canvas) 70%);
+  background-image: radial-gradient(circle at 50% 55%, var(--bg-midden) 0%, #a3cae6 35%, var(--bg-canvas) 70%);
+}
+
+/* Verticale verdeling: de vrije ruimte gaat voor de helft naar boven het
+   wiel (gelijk verdeeld boven en onder de titel) en voor de helft naar
+   eronder. Zo komt het wiel iets onder het midden te staan: ongeveer 1/3
+   van de afstand tussen titel en wiel. De logo's blijven in de hoeken. */
+body.startpagina .header-container {
+  flex-grow: 1;
+}
+
+body.startpagina::after {
+  content: '';
+  flex-grow: 1;
 }
 
 svg.wheel-svg {
