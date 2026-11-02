@@ -163,15 +163,21 @@
   }
 
   // Kopregel: logo's in de hoeken, gekleurd vlak met de naam van de fase
-  // en eventueel daaronder de naam van de sectie
-  function maakKop(titel) {
+  // en eventueel daaronder de naam van de sectie.
+  // Een tik op het IDT-logo gaat terug, net als de Terug-knop.
+  function maakKop(titel, terug) {
     var vlak = maak('div', 'title-text fase-titel');
     vlak.appendChild(maak('div', '', titel));
     if (sectie) vlak.appendChild(maak('div', 'fase-sectie', sectie));
 
+    var idtLogo = maak('a', 'logo-terug');
+    idtLogo.href = terug;
+    idtLogo.setAttribute('aria-label', 'Terug');
+    idtLogo.appendChild(maakLogo('logo1.svg', 'logo'));
+    if (fasePlek >= 0) idtLogo.appendChild(maakAanwijzer());
+
     var kop = maak('header', 'header-container');
-    kop.append(maakLogo('logo1.svg', 'logo'), vlak, maakLogo('logo2.svg', 'logo logo-right'));
-    if (fasePlek >= 0) kop.appendChild(maakAanwijzer());
+    kop.append(idtLogo, vlak, maakLogo('logo2.svg', 'logo logo-right'));
     return kop;
   }
 
@@ -223,7 +229,7 @@
     body.textContent = '';
     // Terug naar het wiel, of vanuit een sectie naar het overzicht van de fase
     var terug = sectie ? '../index.html' : basis + 'index.html';
-    body.append(maakKop(fase.naam || titelTekst), tegels, maakTerug(terug));
+    body.append(maakKop(fase.naam || titelTekst, terug), tegels, maakTerug(terug));
   }
 
   // ---------- Onderwerp: titel, afbeelding, tekst en eventueel QR-code ----------
@@ -293,6 +299,6 @@
       inhoud.appendChild(linkBlok);
     }
 
-    body.append(maakKop(fase.naam), inhoud, maakTerug('index.html'));
+    body.append(maakKop(fase.naam, 'index.html'), inhoud, maakTerug('index.html'));
   }
 })();
