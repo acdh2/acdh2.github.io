@@ -24,6 +24,15 @@
         <a href>    als laatste: de link, hiervan komt een QR-code (optioneel)
         de rest     koppen, alinea's en lijstjes
 
+      Staat er in de body alleen tekst (geen tags), dan wordt die gelezen
+      als Markdown en eerst omgezet naar bovenstaande HTML:
+        # Titel               ## Tussenkop          ### Kleine kop
+        - punt  of  * punt    1. genummerd punt     **vet**  *schuin*
+        foto.png              (regel met alleen een afbeelding)
+        ![beschrijving](foto.png)
+        Tekst: https://...    (laatste regel met een link: QR-code)
+        Een witregel begint een nieuwe alinea, een enkele Enter een nieuwe regel.
+
    Om de inhoud van een pagina te wijzigen hoeft dit bestand
    niet aangepast te worden.
    ========================================================= */
@@ -232,9 +241,119 @@
     body.append(maakKop(fase.naam || titelTekst, terug), tegels, maakTerug(terug));
   }
 
+  // ---------- Markdown: platte tekst omzetten naar HTML ----------
+
+  var AFBEELDING = /\.(png|jpe?g|gif|webp|svg)$/i;
+
+  // De tekst die los in de body staat (opmerkingen tellen niet mee)
+  function losseTekst(body) {
+    var tekst = '';
+    Array.prototype.forEach.call(body.childNodes, function (node) {
+      if (node.nodeType === Node.TEXT_NODE) tekst += node.textContent;
+    });
+    return tekst;
+  }
+
+  function isMarkdown(body) {
+    var heeftTags = Array.prototype.some.call(body.children, function (el) {
+      return el.tagName !== 'SCRIPT';
+    });
+    return !heeftTags && losseTekst(body).trim() !== '';
+  }
+
+  // **vet**, *schuin* en [tekst](adres) binnen een regel
+  function voegRegelToe(el, tekst) {
+    tekst.split(/(\*\*[^*]+\*\*|\*[^*\s][^*]*\*|\[[^\]]+\]\([^)\s]+\))/).forEach(function (deel, i) {
+      if (!deel) return;
+      var m;
+      if (i % 2 === 0) {
+        el.appendChild(document.createTextNode(deel));
+      } else if ((m = deel.match(/^\[(.+)\]\((.+)\)$/))) {
+        var link = maak('a', '', m[1]);
+        link.setAttribute('href', m[2]);
+        el.appendChild(link);
+      } else if (deel.charAt(1) === '*') {
+        el.appendChild(maak('strong', '', deel.slice(2, -2)));
+      } else {
+        el.appendChild(maak('em', '', deel.slice(1, -1)));
+      }
+    });
+  }
+
+  function maakRegel(tag, tekst) {
+    var el = document.createElement(tag);
+    voegRegelToe(el, tekst);
+    return el;
+  }
+
+  // Laatste regel met een link: "Tekst: https://..." of "[Tekst](https://...)"
+  function leesLink(regel) {
+    if (/^(#|[-*+]\s|\d+[.)]\s)/.test(regel)) return null;
+    var m = regel.match(/^\[(.+)\]\((https?:\/\/\S+)\)$/) || regel.match(/^(.*?)\s*(https?:\/\/\S+)$/);
+    return m ? { tekst: m[1].trim(), adres: m[2] } : null;
+  }
+
+  function zetMarkdownOm(body) {
+    var regels = losseTekst(body).split(/\r?\n/).map(function (r) { return r.trim(); });
+    while (regels.length && !regels[regels.length - 1]) regels.pop();
+
+    var link = regels.length ? leesLink(regels[regels.length - 1]) : null;
+    if (link) regels.pop();
+
+    var blokken = [];
+    var alinea = null, lijst = null;
+
+    regels.forEach(function (regel) {
+      var m;
+      if (!regel) {
+        // Witregel: nieuwe alinea of nieuwe lijst
+        alinea = lijst = null;
+      } else if ((m = regel.match(/^(#{1,3})\s+(.*)$/))) {
+        alinea = lijst = null;
+        blokken.push(maakRegel('h' + m[1].length, m[2]));
+      } else if ((m = regel.match(/^!\[(.*)\]\((\S+)\)$/)) || (AFBEELDING.test(regel) && !/\s/.test(regel))) {
+        alinea = lijst = null;
+        var img = document.createElement('img');
+        img.setAttribute('src', m ? m[2] : regel);
+        img.alt = m ? m[1] : '';
+        blokken.push(img);
+      } else if ((m = regel.match(/^([-*+]|\d+[.)])\s+(.*)$/))) {
+        alinea = null;
+        var soort = /\d/.test(m[1]) ? 'OL' : 'UL';
+        if (!lijst || lijst.tagName !== soort) {
+          lijst = document.createElement(soort);
+          blokken.push(lijst);
+        }
+        lijst.appendChild(maakRegel('li', m[2]));
+      } else if (alinea) {
+        // Enkele Enter: nieuwe regel binnen dezelfde alinea
+        alinea.appendChild(document.createElement('br'));
+        voegRegelToe(alinea, regel);
+      } else {
+        lijst = null;
+        alinea = maakRegel('p', regel);
+        blokken.push(alinea);
+      }
+    });
+
+    if (link) {
+      var a = maak('a', '', link.tekst);
+      a.setAttribute('href', link.adres);
+      blokken.push(a);
+    }
+
+    // Tekst vervangen door de opgebouwde HTML
+    Array.prototype.slice.call(body.childNodes).forEach(function (node) {
+      if (node.nodeType === Node.TEXT_NODE) node.remove();
+    });
+    blokken.forEach(function (el) { body.appendChild(el); });
+  }
+
   // ---------- Onderwerp: titel, afbeelding, tekst en eventueel QR-code ----------
 
   function bouwOnderwerp(body) {
+    if (isMarkdown(body)) zetMarkdownOm(body);
+
     var titel = haalWeg(body.querySelector('h1'));
     var afbeelding = haalWeg(body.querySelector('img'));
     // Alleen een losse link onderaan wordt een QR-code; links in de tekst blijven staan
