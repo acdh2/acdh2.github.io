@@ -8,6 +8,17 @@
     :root {
       --bg-canvas: #8cd0ea;
       --text-color: #333333;
+      /* Breedte van de inhoud: volledig scherm, maar nooit breder dan 9:16 (portret) */
+      --page-width: min(100vw, 100vh * 9 / 16);
+    }
+
+    @supports (height: 100dvh) {
+      :root { --page-width: min(100vw, 100dvh * 9 / 16); }
+    }
+
+    /* Alle maten in rem schalen mee met de paginabreedte (minimaal 16px voor mobiel) */
+    html {
+      font-size: max(16px, calc(var(--page-width) / 40));
     }
 
     * {
@@ -19,25 +30,28 @@
     body {
       background-color: var(--bg-canvas);
       min-height: 100vh;
+      min-height: 100dvh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: flex-start;
-      padding: 20px;
+      padding: 1.25rem;
       font-family: Arial, Helvetica, sans-serif;
     }
 
     .header-container {
       width: 100%;
+      max-width: var(--page-width);
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 20px;
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
       position: relative;
     }
 
     .logo {
-      height: 60px;
+      height: 3.75rem;
       width: auto;
       object-fit: contain;
     }
@@ -52,13 +66,18 @@
       filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.7));      
     }
 
+    /* Het wiel vult de breedte, maar past ook altijd in de hoogte onder de header */
     .wheel-wrapper {
-      width: 80vw;
-      height: 80vw;
-      max-width: 550px;
-      max-height: 550px;
+      --wheel-size: min(calc(var(--page-width) * 0.85), calc(100vh - 9rem));
+      width: var(--wheel-size);
+      height: var(--wheel-size);
       position: relative;
-      margin-top: 20px;
+      margin-top: 1.25rem;
+    }
+
+    @media (max-width: 600px) {
+      .logo { height: 2.75rem; }
+      .title { font-size: 1.4rem; }
     }
 
     svg.wheel-svg {
@@ -107,23 +126,23 @@
     <svg class="wheel-svg" viewBox="0 0 400 400">
       <defs>
         <g id="wheel-paths">
-          <!-- 1. Geel -> page1.html -->
-          <a href="page1.html" class="segment-link" target="_top">
+          <!-- Geel (Inleven) -> page5.html -->
+          <a href="page5.html" class="segment-link" target="_top">
             <path class="wheel-segment" fill="#fed100" d="M 200 200 L 28.81 144.38 A 180 180 0 0 1 200 20 Z"/>
           </a>
-          <!-- 2. Oranje -> page2.html -->
-          <a href="page2.html" class="segment-link" target="_top">
+          <!-- Oranje (Definiëren) -> page1.html -->
+          <a href="page1.html" class="segment-link" target="_top">
             <path class="wheel-segment" fill="#f59c23" d="M 200 200 L 200 20 A 180 180 0 0 1 371.19 144.38 Z"/>
           </a>
-          <!-- 3. Magenta -> page3.html -->
-          <a href="page3.html" class="segment-link" target="_top">
+          <!-- Magenta (Idee) -> page2.html -->
+          <a href="page2.html" class="segment-link" target="_top">
             <path class="wheel-segment" fill="#c81358" d="M 200 200 L 371.19 144.38 A 180 180 0 0 1 305.80 345.62 Z"/>
           </a>
-          <!-- 4. Blauw -> page3.html -->
-          <a href="page4.html" class="segment-link" target="_top">
+          <!-- Blauw (Prototype) -> page3.html -->
+          <a href="page3.html" class="segment-link" target="_top">
             <path class="wheel-segment" fill="#50a0ff" d="M 200 200 L 305.80 345.62 A 180 180 0 0 1 94.20 345.62 Z"/>
           </a>
-          <!-- 4. Groen -> page4.html -->
+          <!-- Groen (Testen) -> page4.html -->
           <a href="page4.html" class="segment-link" target="_top">
             <path class="wheel-segment" fill="#0a9b6c" d="M 200 200 L 94.20 345.62 A 180 180 0 0 1 28.81 144.38 Z"/>
           </a>
