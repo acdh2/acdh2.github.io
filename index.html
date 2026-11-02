@@ -4,122 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>IDT Cirkel</title>
-  <style>
-    :root {
-      --bg-canvas: #8cd0ea;
-      --text-color: #333333;
-      /* Breedte van de inhoud: volledig scherm, maar nooit breder dan 9:16 (portret) */
-      --page-width: min(100vw, 100vh * 9 / 16);
-    }
-
-    @supports (height: 100dvh) {
-      :root { --page-width: min(100vw, 100dvh * 9 / 16); }
-    }
-
-    /* Alle maten in rem schalen mee met de paginabreedte (minimaal 16px voor mobiel) */
-    html {
-      font-size: max(16px, calc(var(--page-width) / 40));
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      background-color: var(--bg-canvas);
-      min-height: 100vh;
-      min-height: 100dvh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      padding: 1.25rem;
-      font-family: Arial, Helvetica, sans-serif;
-    }
-
-    .header-container {
-      width: 100%;
-      max-width: var(--page-width);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 0.75rem;
-      margin-bottom: 1.25rem;
-      position: relative;
-    }
-
-    .logo {
-      height: 3.75rem;
-      width: auto;
-      object-fit: contain;
-    }
-
-    .title {
-      font-size: 2rem;
-      font-weight: bold;
-      /*color: var(--text-color);*/
-      color: #ffffff;
-      text-align: center;
-      flex-grow: 1;
-      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.7));      
-    }
-
-    /* Het wiel vult de breedte, maar past ook altijd in de hoogte onder de header */
-    .wheel-wrapper {
-      --wheel-size: min(calc(var(--page-width) * 0.85), calc(100vh - 9rem));
-      width: var(--wheel-size);
-      height: var(--wheel-size);
-      position: relative;
-      margin-top: 1.25rem;
-    }
-
-    @media (max-width: 600px) {
-      .logo { height: 2.75rem; }
-      .title { font-size: 1.4rem; }
-    }
-
-    svg.wheel-svg {
-      width: 100%;
-      height: 100%;
-      filter: drop-shadow(0 6px 12px rgba(0,0,0,0.15));
-      overflow: visible;
-    }
-
-    .wheel-segment {
-      transition: transform 0.2s, filter 0.2s;
-      transform-origin: 200px 200px;
-      cursor: pointer;
-    }
-
-    .segment-link:hover .wheel-segment {
-      filter: brightness(1.08);
-      transform: scale(1.02);
-    }
-
-    .segment-link:hover .segment-text {
-      font-weight: bold;
-    }
-
-    .segment-text {
-      font-size: 15px;
-      font-weight: bold;
-      fill: #ffffff;
-      text-anchor: middle;
-      dominant-baseline: central;
-      pointer-events: none;
-      font-family: Arial, sans-serif;
-      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.7));
-    }
-  </style>
+  <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
+<body class="startpagina">
 
   <header class="header-container">
     <img src="logo1.png" alt="Logo Links" class="logo" onerror="this.style.visibility='hidden'">
-    <h1 class="title">Waar zit je in het ontwerpproces?</h1>
-    <img src="logo2.png" alt="Logo Rechts" class="logo" onerror="this.style.visibility='hidden'">
+    <h1 class="title-text">Waar zit je in het ontwerpproces?</h1>
+    <img src="logo2.png" alt="Logo Rechts" class="logo logo-right" onerror="this.style.visibility='hidden'">
   </header>
 
   <main class="wheel-wrapper">

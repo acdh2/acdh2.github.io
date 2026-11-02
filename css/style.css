@@ -1,0 +1,317 @@
+/* =========================================================
+   Opmaak voor alle pagina's van het Immersive Design Framework
+
+   Alle maten staan in rem. De basisgrootte (1rem) schaalt mee
+   met de breedte van de pagina, dus alles wordt op een groot
+   scherm groter en op een telefoon kleiner.
+   ========================================================= */
+
+
+/* ---------- Gedeeld door alle pagina's ---------- */
+
+:root {
+  --bg-canvas: #8cd0ea;
+  --text-color: #333333;
+  /* Breedte van de inhoud: volledig scherm, maar nooit breder dan 9:16 (portret) */
+  --page-width: min(100vw, 100vh * 9 / 16);
+}
+
+@supports (height: 100dvh) {
+  :root { --page-width: min(100vw, 100dvh * 9 / 16); }
+}
+
+/* Alle maten in rem schalen mee met de paginabreedte (minimaal 16px voor mobiel) */
+html {
+  font-size: max(16px, calc(var(--page-width) / 40));
+  background-color: var(--bg-canvas);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-canvas);
+  /* Vult het scherm; mag langer worden (scrollen) als de inhoud niet past */
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.25rem;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Kopregel: logo links, titel in het midden, logo rechts */
+.header-container {
+  width: 100%;
+  max-width: var(--page-width);
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.logo {
+  height: 3.75rem;
+  width: auto;
+  object-fit: contain;
+}
+
+.logo-right {
+  justify-self: end;
+}
+
+.title-text {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #ffffff;
+  text-align: center;
+  filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.7));
+}
+
+/* De QR-code wordt scherp gegenereerd en op maat geschaald */
+.qr-code img, .qr-code canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+@media (max-width: 600px) {
+  .logo { height: 2.75rem; }
+  .title-text { font-size: 1.4rem; }
+}
+
+
+/* ---------- Startpagina (index.html): het wiel ---------- */
+
+/* Het wiel vult de breedte, maar past ook altijd in de hoogte onder de header */
+.wheel-wrapper {
+  --wheel-size: min(calc(var(--page-width) * 0.85), calc(100vh - 9rem));
+  width: var(--wheel-size);
+  height: var(--wheel-size);
+  position: relative;
+  margin-top: 1.25rem;
+}
+
+svg.wheel-svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 6px 12px rgba(0,0,0,0.15));
+  overflow: visible;
+}
+
+.wheel-segment {
+  transition: transform 0.2s, filter 0.2s;
+  transform-origin: 200px 200px;
+  cursor: pointer;
+}
+
+.segment-link:hover .wheel-segment {
+  filter: brightness(1.08);
+  transform: scale(1.02);
+}
+
+.segment-link:hover .segment-text {
+  font-weight: bold;
+}
+
+.segment-text {
+  font-size: 15px; /* in SVG-eenheden, schaalt mee met het wiel */
+  font-weight: bold;
+  fill: #ffffff;
+  text-anchor: middle;
+  dominant-baseline: central;
+  pointer-events: none;
+  font-family: Arial, sans-serif;
+  filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.7));
+}
+
+
+/* ---------- Infopagina's (page1-5) ----------
+   De HTML hiervan wordt opgebouwd door js/infopagina.js */
+
+body.infopagina {
+  width: var(--page-width);
+  margin: 0 auto;
+  padding: 1.5rem;
+  align-items: stretch;
+}
+
+.infopagina .logo {
+  height: 3.25rem;
+}
+
+.infopagina .title-text {
+  font-size: 1.8rem;
+}
+
+/* Grid voor de 3 witte blokken met de verhoudingen */
+.content-grid {
+  flex-grow: 1;
+  display: grid;
+  grid-template-rows: 3fr 7fr 3fr; /* Verhouding hoogte van de 3 blokken */
+  gap: 1.25rem;
+}
+
+/* Pagina zonder link: alleen afbeelding en tekst */
+.content-grid.zonder-link {
+  grid-template-rows: 3fr 7fr;
+}
+
+.card {
+  background-color: #ffffff;
+  border-radius: 2rem; /* Behoorlijk afgeronde hoeken */
+  padding: 1.5rem;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Blok 1: Afbeelding */
+.card-image {
+  padding: 0;
+  min-height: 10rem;
+  overflow: hidden;
+  position: relative;
+}
+
+.card-image img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 2rem;
+}
+
+.image-placeholder {
+  width: 100%;
+  height: 100%;
+  background-color: #f0f0f0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #888888;
+  font-size: 1.2rem;
+  border-radius: 2rem;
+}
+
+/* Blok 2: Omschrijving (koppen, alinea's en lijstjes) */
+.card-text {
+  justify-content: center;
+}
+
+.card-text h2,
+.card-text h3 {
+  color: #333333;
+  font-size: 1.5rem;
+}
+
+.card-text h3 {
+  font-size: 1.25rem;
+}
+
+.card-text p,
+.card-text li {
+  color: #555555;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.card-text * + h2,
+.card-text * + h3,
+.card-text * + p,
+.card-text * + ul,
+.card-text * + ol {
+  margin-top: 0.75rem;
+}
+
+.card-text ul,
+.card-text ol {
+  padding-left: 1.5rem;
+}
+
+/* Links in de tekst niet klikbaar, zodat bezoekers de app niet verlaten */
+.card-text a {
+  color: inherit;
+  font-weight: bold;
+  text-decoration: none;
+  pointer-events: none;
+}
+
+/* Blok 3: QR & Link, QR-code rechtsonderin */
+.card-qr {
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 1rem;
+}
+
+.link-container {
+  align-self: flex-start;
+  min-width: 0;
+}
+
+.link-title {
+  font-size: 0.9rem;
+  color: #777777;
+  margin-bottom: 0.25rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.target-url {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #000000;
+  word-break: break-all;
+}
+
+.qr-container {
+  flex-shrink: 0;
+  width: 6rem;
+  background-color: #ffffff;
+  padding: 0.6rem;
+  border-radius: 0.75rem;
+  border: 1px solid #eeeeee;
+}
+
+@media (max-width: 600px) {
+  .infopagina .logo { height: 2.5rem; }
+  .infopagina .title-text { font-size: 1.4rem; }
+  .card { padding: 1.25rem; }
+}
+
+
+/* ---------- QR-pagina (qr.html) ---------- */
+
+.qrpagina .title-text {
+  word-break: break-all;
+}
+
+.qr-wrapper {
+  --qr-size: min(calc(var(--page-width) * 0.75), calc(100vh - 12rem));
+  width: var(--qr-size);
+  height: var(--qr-size);
+  margin-top: 2.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffffff;
+  padding: 1.25rem;
+  border-radius: 1rem;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+.qr-wrapper .qr-code {
+  width: 100%;
+}
+
+@media (max-width: 600px) {
+  .qrpagina .title-text { font-size: 1.2rem; }
+}
