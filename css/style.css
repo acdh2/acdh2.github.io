@@ -167,30 +167,37 @@ svg.wheel-svg {
 }
 
 
-/* ---------- Infopagina's (page1-5) ----------
-   De HTML hiervan wordt opgebouwd door js/infopagina.js */
+/* ---------- Fasepagina's (overzicht en onderwerp) ----------
+   De HTML hiervan wordt opgebouwd door js/pagina.js.
+   --fase-kleur wordt door het script gezet, op basis van de map. */
 
-body.infopagina {
+body.fasepagina {
   width: var(--page-width);
   margin: 0 auto;
   align-items: stretch;
+  /* Ruimte onderin voor de Terug-knop */
+  padding-bottom: calc(2 * var(--rand) + 3.5rem);
 }
 
-.infopagina .title-text {
-  font-size: 1.8rem;
+/* Kopregel: gekleurd vlak met de fasenaam, vast aan de bovenrand */
+.fasepagina .header-container {
+  margin-top: calc(-1 * var(--rand));
+  align-items: stretch;
 }
 
-/* Grid voor de 3 witte blokken met de verhoudingen */
-.content-grid {
-  flex-grow: 1;
-  display: grid;
-  grid-template-rows: 3fr 7fr 3fr; /* Verhouding hoogte van de 3 blokken */
-  gap: 1.25rem;
-}
-
-/* Pagina zonder link: alleen afbeelding en tekst */
-.content-grid.zonder-link {
-  grid-template-rows: 3fr 7fr;
+.fase-titel {
+  width: 100%;
+  min-height: calc(var(--logo-size) + var(--logo-marge));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.25rem;
+  background-color: var(--fase-kleur);
+  border: 0.2rem solid #ffffff;
+  border-top: 0;
+  border-radius: 0 0 1.5rem 1.5rem;
+  color: #0b1e28;
+  filter: none;
 }
 
 .card {
@@ -202,64 +209,117 @@ body.infopagina {
   flex-direction: column;
 }
 
-/* Blok 1: Afbeelding */
-.card-image {
-  padding: 0;
-  min-height: 10rem;
-  overflow: hidden;
-  position: relative;
+/* Terug-knop rechtsonder, altijd in beeld */
+.terug-knop {
+  position: fixed;
+  right: var(--rand);
+  bottom: var(--rand);
+  padding: 0.9rem 2.25rem;
+  background-color: #b0b0b0;
+  border-radius: 1.25rem;
+  color: #0b1e28;
+  font-size: 1.4rem;
+  text-decoration: none;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
 }
 
-.card-image img {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 2rem;
+/* Overzicht: tegels in twee kolommen */
+.tegels {
+  flex-grow: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-auto-rows: minmax(10rem, 1fr);
+  gap: 1.25rem;
 }
 
-.image-placeholder {
-  width: 100%;
-  height: 100%;
-  background-color: #f0f0f0;
+.tegel {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #888888;
-  font-size: 1.2rem;
+  flex-direction: column;
+  gap: 0.75rem;
+  min-height: 0;
+  padding: 1rem;
+  background-color: #ffffff;
   border-radius: 2rem;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+  color: #0b1e28;
+  text-decoration: none;
+  overflow: hidden;
 }
 
-/* Blok 2: Omschrijving (koppen, alinea's en lijstjes) */
-.card-text {
-  justify-content: center;
+.tegel-titel {
+  font-size: 1.2rem;
+  text-align: center;
 }
 
+.tegel-afbeelding {
+  flex: 1 1 0;
+  min-height: 0;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 1.25rem;
+}
+
+/* Tegel zonder pagina: nog niet aanklikbaar */
+.tegel-leeg .tegel-titel {
+  font-style: italic;
+  color: #777777;
+}
+
+/* Onderwerp: één wit vlak met titel, afbeelding en tekst */
+.onderwerp-inhoud {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.onderwerp-kaart {
+  flex-grow: 1;
+  gap: 1.25rem;
+}
+
+.onderwerp-titel {
+  font-size: 1.6rem;
+  font-weight: normal;
+  text-align: center;
+  color: #0b1e28;
+}
+
+.onderwerp-afbeelding {
+  width: 100%;
+  max-height: 40vh;
+  object-fit: cover;
+  border-radius: 1.25rem;
+}
+
+/* Tekst: koppen, alinea's en lijstjes */
 .card-text h2,
 .card-text h3 {
-  color: #333333;
-  font-size: 1.5rem;
+  color: #0b1e28;
+  font-size: 1.25rem;
 }
 
 .card-text h3 {
-  font-size: 1.25rem;
+  font-size: 1.1rem;
 }
 
 .card-text p,
 .card-text li {
-  color: #555555;
+  color: #333333;
   font-size: 1.1rem;
-  line-height: 1.6;
+  line-height: 1.5;
 }
 
 .card-text * + h2,
-.card-text * + h3,
+.card-text * + h3 {
+  margin-top: 1.5rem;
+}
+
 .card-text * + p,
 .card-text * + ul,
-.card-text * + ol {
-  margin-top: 0.75rem;
+.card-text * + ol,
+.card-text li + li {
+  margin-top: 0.5rem;
 }
 
 .card-text ul,
@@ -270,12 +330,11 @@ body.infopagina {
 /* Links in de tekst niet klikbaar, zodat bezoekers de app niet verlaten */
 .card-text a {
   color: inherit;
-  font-weight: bold;
-  text-decoration: none;
+  text-decoration: underline;
   pointer-events: none;
 }
 
-/* Blok 3: QR & Link, QR-code rechtsonderin */
+/* Link met QR-code onder het witte vlak */
 .card-qr {
   flex-direction: row;
   justify-content: space-between;
@@ -313,8 +372,9 @@ body.infopagina {
 }
 
 @media (max-width: 600px) {
-  .infopagina .title-text { font-size: 1.4rem; }
-  .card { padding: 1.25rem; }
+  .card, .tegel { padding: 1rem; }
+  .tegel-titel { font-size: 1rem; }
+  .terug-knop { font-size: 1.1rem; padding: 0.6rem 1.5rem; }
 }
 
 
