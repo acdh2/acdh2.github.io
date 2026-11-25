@@ -57,7 +57,8 @@
 
   // Map van het project, afgeleid van waar dit script staat
   var basis = document.currentScript.src.replace(/js\/[^\/]*$/, '');
-  var pad = decodeURIComponent(location.pathname).split('/');
+  // De beheer-editor (bewerk.html) geeft zelf op bij welke pagina hij hoort
+  var pad = decodeURIComponent(window.IDT_PAD || location.pathname).split('/');
   var bestand = pad[pad.length - 1];
   var isOverzicht = bestand === '' || bestand === 'index.html';
 
@@ -72,12 +73,13 @@
   var sectie = faseIndex >= 0 && faseIndex < pad.length - 2 ? maakNaam(pad[pad.length - 2]) : '';
 
   var root = document.documentElement;
+  window.IDT = window.IDT || {};
 
   // Pagina verbergen tot de opmaak klaar is, zodat de ruwe inhoud niet even zichtbaar is
   root.style.visibility = 'hidden';
   var toonPagina = function () { root.style.visibility = ''; };
-  // Vangnet: toon de pagina hoe dan ook na 3 seconden
-  setTimeout(toonPagina, 3000);
+  // Vangnet: toon de pagina hoe dan ook na 3 seconden (in de editor later)
+  setTimeout(toonPagina, window.IDT_WACHT ? 15000 : 3000);
 
   // Wacht op drie dingen: de CSS, de QR-bibliotheek en de inhoud van de pagina
   var wachtOp = 3;
@@ -88,9 +90,26 @@
         bouwPagina();
       } finally {
         toonPagina();
+        window.IDT.klaar = true;
+        document.dispatchEvent(new Event('idt-klaar'));
       }
     }
   }
+
+  // De editor laadt de inhoud eerst op; dan wachten we daar ook op
+  if (window.IDT_WACHT) {
+    wachtOp++;
+    window.IDT_WACHT.then(stapKlaar, stapKlaar);
+  }
+
+  // Ingelogd als beheerder (via beheer.html)? Laad dan de beheerfuncties.
+  try {
+    if (localStorage.getItem('idt-beheer') && !window.IDT_BEHEER) {
+      var beheer = document.createElement('script');
+      beheer.src = basis + 'js/beheer.js';
+      document.head.appendChild(beheer);
+    }
+  } catch (e) { /* geen localStorage: gewoon de site */ }
 
   var css = document.createElement('link');
   css.rel = 'stylesheet';
@@ -339,11 +358,23 @@
   }
 
   function zetMarkdownOm(body) {
-    var regels = losseTekst(body).split(/\r?\n/).map(function (r) { return r.trim(); });
+    var resultaat = markdownBlokken(losseTekst(body), true);
+
+    // Tekst vervangen door de opgebouwde HTML
+    Array.prototype.slice.call(body.childNodes).forEach(function (node) {
+      if (node.nodeType === Node.TEXT_NODE) node.remove();
+    });
+    resultaat.forEach(function (el) { body.appendChild(el); });
+  }
+
+  // Zet Markdown-tekst om in een lijst HTML-elementen.
+  // metLink: een link op de laatste regel wordt een losse <a> (voor de QR-code).
+  function markdownBlokken(tekst, metLink) {
+    var regels = tekst.split(/\r?\n/).map(function (r) { return r.trim(); });
     while (regels.length && !regels[regels.length - 1]) regels.pop();
 
     var laatste = regels.length ? regels[regels.length - 1] : '';
-    var link = laatste && !leesVideo(laatste) ? leesLink(laatste) : null;
+    var link = metLink && laatste && !leesVideo(laatste) ? leesLink(laatste) : null;
     if (link) regels.pop();
 
     var blokken = [];
@@ -390,12 +421,7 @@
       a.setAttribute('href', link.adres);
       blokken.push(a);
     }
-
-    // Tekst vervangen door de opgebouwde HTML
-    Array.prototype.slice.call(body.childNodes).forEach(function (node) {
-      if (node.nodeType === Node.TEXT_NODE) node.remove();
-    });
-    blokken.forEach(function (el) { body.appendChild(el); });
+    return blokken;
   }
 
   // Video's in HTML (zoals Jekyll die maakt uit Pages CMS):
@@ -464,23 +490,39 @@
       );
       linkBlok.appendChild(linkTekst);
 
-      if (window.QRCode) {
-        var qrCode = maak('div', 'qr-code');
-        var qrHouder = maak('div', 'qr-container');
-        qrHouder.appendChild(qrCode);
-        linkBlok.appendChild(qrHouder);
-        new QRCode(qrCode, {
-          text: adres,
-          width: 256,
-          height: 256,
-          colorDark: '#000000',
-          colorLight: '#ffffff',
-          correctLevel: QRCode.CorrectLevel.H
-        });
-      }
+      var qrHouder = maakQr(adres);
+      if (qrHouder) linkBlok.appendChild(qrHouder);
       inhoud.appendChild(linkBlok);
     }
 
-    body.append(maakKop(fase.naam, 'index.html'), inhoud, maakTerug('index.html'));
+    var terug = window.IDT_TERUG || 'index.html';
+    body.append(maakKop(fase.naam, terug), inhoud, maakTerug(terug));
   }
+
+  // QR-code van een adres, in een houder die in .card-qr past
+  function maakQr(adres) {
+    if (!window.QRCode || !adres) return null;
+    var qrCode = maak('div', 'qr-code');
+    var qrHouder = maak('div', 'qr-container');
+    qrHouder.appendChild(qrCode);
+    new QRCode(qrCode, {
+      text: adres,
+      width: 256,
+      height: 256,
+      colorDark: '#000000',
+      colorLight: '#ffffff',
+      correctLevel: QRCode.CorrectLevel.H
+    });
+    return qrHouder;
+  }
+
+  // Voor de beheerfuncties (js/beheer.js)
+  window.IDT.basis = basis;
+  window.IDT.fase = fase;
+  window.IDT.isOverzicht = isOverzicht;
+  window.IDT.maak = maak;
+  window.IDT.maakQr = maakQr;
+  window.IDT.maakVideo = maakVideo;
+  window.IDT.leesVideo = leesVideo;
+  window.IDT.markdownBlokken = markdownBlokken;
 })();

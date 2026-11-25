@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <!-- Editor van de beheeromgeving: bewerk.html?pad=fase/pagina -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <title>Pagina bewerken</title>
+  <script>
+    (function () {
+      var pad = new URLSearchParams(location.search).get('pad') || '';
+      if (!/^[a-z0-9-]+(\/[a-z0-9-]+)+$/.test(pad)) { location.replace('index.html'); return; }
+      window.IDT_BEWERK = true;
+      // pagina.js doet alsof dit de pagina zelf is (fasekleur, kopregel)
+      window.IDT_PAD = '/' + pad + '.html';
+      window.IDT_TERUG = pad.replace(/[^\/]*$/, '') + 'index.html';
+    })();
+  </script>
+  <script src="js/js-yaml.min.js"></script>
+  <script src="js/beheer.js"></script>
+  <script src="js/pagina.js"></script>
+</head>
+<body>
+Laden...
+</body>
+</html>

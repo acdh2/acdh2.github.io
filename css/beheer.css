@@ -1,0 +1,258 @@
+/* =========================================================
+   Beheer: alleen geladen als je bent ingelogd (js/beheer.js).
+   ========================================================= */
+
+.beheer-knop {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.6rem 1.2rem;
+  border: 0;
+  border-radius: 0.9rem;
+  background: #e6e6e6;
+  color: #0b1e28;
+  font: inherit;
+  font-size: 1rem;
+  text-decoration: none;
+  cursor: pointer;
+}
+.beheer-knop:hover { background: #d6d6d6; }
+.beheer-knop:disabled { opacity: 0.5; cursor: default; }
+.beheer-knop-hoofd { background: #0b1e28; color: #ffffff; }
+.beheer-knop-hoofd:hover { background: #24394a; }
+.beheer-knop-gevaar { background: #bd1520; color: #ffffff; }
+.beheer-knop-gevaar:hover { background: #9c0f19; }
+.beheer-knop:focus-visible, .beheer-invoer:focus-visible, .beheer-bewerkbaar:focus-visible {
+  outline: 3px solid #4a90d9;
+  outline-offset: 2px;
+}
+
+.beheer-invoer {
+  width: 100%;
+  padding: 0.55rem 0.75rem;
+  border: 1px solid #c8c8c8;
+  border-radius: 0.6rem;
+  font: inherit;
+  font-size: 1rem;
+  color: #0b1e28;
+  background: #ffffff;
+}
+
+.beheer-hint {
+  font-size: 0.9rem;
+  color: #777777;
+}
+
+/* Balkje linksonder: wie is ingelogd */
+.beheer-balk {
+  position: fixed;
+  left: var(--rand, 1rem);
+  bottom: var(--rand, 1rem);
+  z-index: 20;
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  padding: 0.45rem 0.9rem;
+  border-radius: 999px;
+  background: #0b1e28;
+  color: #ffffff;
+  font-size: 0.9rem;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+.beheer-balk a { color: #ffffff; }
+
+/* Melding onderaan in het midden */
+.beheer-melding {
+  position: fixed;
+  left: 50%;
+  bottom: calc(var(--rand, 1rem) + 4.5rem);
+  transform: translateX(-50%);
+  z-index: 40;
+  max-width: min(90vw, 36rem);
+  padding: 0.8rem 1.2rem;
+  border-radius: 0.9rem;
+  background: #0b1e28;
+  color: #ffffff;
+  font-size: 1rem;
+  text-align: center;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+}
+.beheer-melding-goed { background: #0a7a5f; }
+.beheer-melding-fout { background: #bd1520; }
+
+/* Vensters (bevestigen, nieuwe pagina) */
+.beheer-venster-achter {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: rgba(11, 30, 40, 0.45);
+}
+.beheer-venster {
+  width: min(100%, 26rem);
+  padding: 1.5rem;
+  border-radius: 1.5rem;
+  background: #ffffff;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.beheer-venster h2 { font-size: 1.3rem; color: #0b1e28; }
+.beheer-venster p { color: #333333; line-height: 1.4; }
+.beheer-venster-knoppen { display: flex; justify-content: flex-end; gap: 0.6rem; }
+
+/* ---------- Overzicht ---------- */
+
+.beheer-laden { opacity: 0.5; pointer-events: none; }
+
+.beheer-tegel { position: relative; }
+.beheer-tegel-concept { opacity: 0.75; }
+.beheer-label {
+  align-self: center;
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+  background: #eeeeee;
+  color: #555555;
+  font-size: 0.8rem;
+}
+
+.beheer-prullenbak {
+  position: absolute;
+  right: 0.75rem;
+  bottom: 0.75rem;
+  width: 2.6rem;
+  height: 2.6rem;
+  padding: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+}
+.beheer-prullenbak svg { width: 1.3rem; height: 1.3rem; fill: #bd1520; }
+.beheer-prullenbak:hover { background: #ffe5e7; }
+
+.beheer-plus {
+  align-items: center;
+  justify-content: center;
+  border: 3px dashed #b0b0b0;
+  background: rgba(255, 255, 255, 0.6);
+  box-shadow: none;
+  font: inherit;
+  cursor: pointer;
+}
+.beheer-plus:hover { background: #ffffff; border-color: #0b1e28; }
+.beheer-plus-teken { font-size: 3.5rem; line-height: 1; color: #0b1e28; }
+
+/* ---------- Gewone pagina: knop naar de editor ---------- */
+
+.beheer-bewerk-link {
+  position: fixed;
+  left: 50%;
+  bottom: var(--rand, 1rem);
+  transform: translateX(-50%);
+  z-index: 20;
+  font-size: 1.1rem;
+  padding: 0.8rem 1.6rem;
+}
+
+/* ---------- Editor ---------- */
+
+body.beheer-editor { padding-bottom: 9rem; }
+
+.beheer-bewerkbaar {
+  border-radius: 0.6rem;
+  outline: 2px dashed transparent;
+  outline-offset: 4px;
+  cursor: text;
+  transition: outline-color 0.15s;
+}
+.beheer-bewerkbaar:hover { outline-color: #b0b0b0; }
+.onderwerp-titel.beheer-bewerkbaar:focus { outline: 2px solid #4a90d9; }
+.onderwerp-titel.beheer-bewerkbaar:empty::before {
+  content: attr(data-leeg);
+  color: #aaaaaa;
+}
+
+.beheer-afbeelding {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.beheer-afbeelding-leeg {
+  padding: 1rem;
+  border: 2px dashed #c8c8c8;
+  border-radius: 1.25rem;
+  align-items: center;
+}
+.beheer-afbeelding-knoppen {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.beheer-tekstvak {
+  width: 100%;
+  min-height: 12rem;
+  padding: 0.9rem 1rem;
+  border: 2px solid #4a90d9;
+  border-radius: 0.9rem;
+  font: inherit;
+  font-size: 1.1rem;
+  line-height: 1.5;
+  color: #333333;
+  resize: vertical;
+}
+
+.beheer-link .link-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+.beheer-link .link-title { margin: 0.4rem 0 0; }
+.beheer-qr { flex-shrink: 0; }
+.beheer-qr:empty { display: none; }
+
+.beheer-acties {
+  position: fixed;
+  left: 50%;
+  bottom: var(--rand, 1rem);
+  transform: translateX(-50%);
+  z-index: 30;
+  display: flex;
+  gap: 0.75rem;
+  padding: 0.6rem;
+  border-radius: 1.25rem;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+}
+.beheer-acties .beheer-knop { font-size: 1.15rem; padding: 0.8rem 1.8rem; }
+
+/* ---------- Inlogpagina ---------- */
+
+.beheer-login-pagina {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.beheer-login {
+  width: min(100%, 24rem);
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+.beheer-login h1 { font-size: 1.6rem; text-align: center; color: #0b1e28; }
+.beheer-login label { display: flex; flex-direction: column; gap: 0.3rem; color: #333333; }
+.beheer-fout { color: #bd1520; min-height: 1.2em; }
+
+@media (max-width: 600px) {
+  .beheer-acties { left: var(--rand, 1rem); right: var(--rand, 1rem); transform: none; justify-content: center; }
+  .beheer-acties .beheer-knop { flex: 1; padding: 0.8rem 1rem; }
+  .beheer-balk { display: none; }
+}

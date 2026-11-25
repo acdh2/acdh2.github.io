@@ -24,4 +24,5 @@ kramdown:
 
 exclude:
   - README.md
+  - beheer-worker
   - vendor

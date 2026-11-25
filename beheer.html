@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <title>Beheer: inloggen</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/beheer.css" data-beheer>
+</head>
+<body class="beheer-login-pagina" data-beheer="login">
+
+  <form id="beheer-login" class="card beheer-login" autocomplete="on">
+    <h1>Beheer</h1>
+    <label>Naam
+      <input class="beheer-invoer" name="naam" autocomplete="username" required autofocus>
+    </label>
+    <label>Wachtwoord
+      <input class="beheer-invoer" name="wachtwoord" type="password" autocomplete="current-password" required>
+    </label>
+    <div class="beheer-fout" role="alert"></div>
+    <button class="beheer-knop beheer-knop-hoofd" type="submit">Inloggen</button>
+    <a class="beheer-hint" href="index.html">Terug naar de site</a>
+  </form>
+
+  <div id="beheer-ingelogd" class="card beheer-login" hidden>
+    <h1>Beheer</h1>
+    <p>Je bent ingelogd als <strong data-naam></strong>.</p>
+    <a class="beheer-knop beheer-knop-hoofd" href="index.html">Naar de site</a>
+    <button class="beheer-knop" type="button" data-uitloggen>Uitloggen</button>
+  </div>
+
+  <script src="js/beheer.js"></script>
+</body>
+</html>

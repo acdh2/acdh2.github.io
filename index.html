@@ -51,5 +51,16 @@
     </svg>
   </main>
 
+  <!-- Alleen voor beheerders die zijn ingelogd via beheer.html -->
+  <script>
+    try {
+      if (localStorage.getItem('idt-beheer')) {
+        var beheer = document.createElement('script');
+        beheer.src = 'js/beheer.js';
+        document.body.appendChild(beheer);
+      }
+    } catch (e) {}
+  </script>
+
 </body>
 </html>
