@@ -18,7 +18,7 @@
   window.IDT_BEHEER = true;
 
   // Adres van de Cloudflare Worker (zie beheer-worker/LEESMIJ.md)
-  var API = 'https://idt-beheer.WORKER-SUBDOMEIN.workers.dev';
+  var API = 'https://idt-beheer.a-c-denhond.workers.dev';
   // Afbeeldingen die net zijn geüpload staan al op GitHub, maar nog niet op de site
   var RAW = 'https://raw.githubusercontent.com/acdh2/acdh2.github.io/main/';
   try { API = localStorage.getItem('idt-beheer-api') || API; } catch (e) { /* standaard */ }
