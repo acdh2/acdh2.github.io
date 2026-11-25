@@ -234,6 +234,17 @@ body.beheer-editor { padding-bottom: 9rem; }
 }
 .beheer-acties .beheer-knop { font-size: 1.15rem; padding: 0.8rem 1.8rem; }
 
+/* Bestandsveld voor afbeeldingen: aanwezig, maar onzichtbaar */
+.beheer-bestandkiezer {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
 /* ---------- Inlogpagina ---------- */
 
 .beheer-login-pagina {

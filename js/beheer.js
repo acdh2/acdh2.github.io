@@ -422,8 +422,9 @@
 
   function editor() {
     if (!staat) return;
-    document.body.classList.add('beheer-editor');
     var kaart = document.querySelector('.onderwerp-kaart');
+    if (!kaart) { melding('Deze pagina is een overzicht en kan hier niet worden bewerkt.', 'fout'); return; }
+    document.body.classList.add('beheer-editor');
     var titelEl = kaart.querySelector('.onderwerp-titel');
     var tekstEl = kaart.querySelector('.card-text');
     var inhoud = document.querySelector('.onderwerp-inhoud');
@@ -446,32 +447,40 @@
     // Afbeelding
     var beeldVak = el('div', 'beheer-afbeelding');
     kaart.insertBefore(beeldVak, tekstEl);
-    var bestandKiezer = el('input');
-    bestandKiezer.type = 'file';
-    bestandKiezer.accept = 'image/*';
-    bestandKiezer.hidden = true;
-    bestandKiezer.addEventListener('change', function () {
-      var f = bestandKiezer.files[0];
-      bestandKiezer.value = '';
-      if (!f) return;
-      verklein(f).then(function (res) {
-        nieuweAfbeelding = res;
-        afbeelding = res.url;
-        wijziging();
-        tekenAfbeelding();
-      }).catch(function () { melding('Dit bestand kan niet als afbeelding worden gebruikt.', 'fout'); });
-    });
-    beeldVak.appendChild(bestandKiezer);
+    // Bij elke klik een nieuw (onzichtbaar, maar wel aanwezig) bestandsveld:
+    // sommige browsers openen een verborgen veld dat al gebruikt is niet nog eens.
+    function kiesAfbeelding() {
+      var oud = document.querySelector('.beheer-bestandkiezer');
+      if (oud) oud.remove();
+      var kiezer = el('input', 'beheer-bestandkiezer');
+      kiezer.type = 'file';
+      kiezer.accept = 'image/*';
+      kiezer.tabIndex = -1;
+      kiezer.setAttribute('aria-hidden', 'true');
+      kiezer.addEventListener('change', function () {
+        var f = kiezer.files && kiezer.files[0];
+        kiezer.remove();
+        if (!f) return;
+        verklein(f).then(function (res) {
+          nieuweAfbeelding = res;
+          afbeelding = res.url;
+          wijziging();
+          tekenAfbeelding();
+        }).catch(function () { melding('Dit bestand kan niet als afbeelding worden gebruikt. Probeer een jpg of png.', 'fout'); });
+      });
+      document.body.appendChild(kiezer);
+      kiezer.click();
+    }
 
     function tekenAfbeelding() {
-      Array.prototype.slice.call(beeldVak.children).forEach(function (c) { if (c !== bestandKiezer) c.remove(); });
+      beeldVak.textContent = '';
       var knoppen = el('div', 'beheer-afbeelding-knoppen');
       if (afbeelding) {
         var img = el('img', 'onderwerp-afbeelding');
         img.alt = g.afbeelding_beschrijving || '';
         zetAfbeelding(img, afbeelding);
         beeldVak.appendChild(img);
-        knoppen.appendChild(knop('Afbeelding vervangen', '', function () { bestandKiezer.click(); }));
+        knoppen.appendChild(knop('Afbeelding vervangen', '', kiesAfbeelding));
         knoppen.appendChild(knop('Afbeelding wissen', '', function () {
           afbeelding = '';
           nieuweAfbeelding = null;
@@ -480,7 +489,7 @@
         }));
       } else {
         beeldVak.classList.add('beheer-afbeelding-leeg');
-        knoppen.appendChild(knop('Afbeelding toevoegen', '', function () { bestandKiezer.click(); }));
+        knoppen.appendChild(knop('Afbeelding toevoegen', '', kiesAfbeelding));
         knoppen.appendChild(el('span', 'beheer-hint', 'Zonder afbeelding wordt hier niets getoond.'));
       }
       beeldVak.classList.toggle('beheer-afbeelding-leeg', !afbeelding);
