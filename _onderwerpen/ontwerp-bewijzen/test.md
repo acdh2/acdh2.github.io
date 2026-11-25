@@ -1,15 +1,13 @@
 ---
-titel: test
+titel: Kunst
 geavanceerd:
   - volgorde: 4
 ---
 
-## Wat is het?
+## Titel
 
-Vertel hier in een paar zinnen waar het over gaat.
+abc abc
 
-## Hoe werkt het?
+## Blahblah
 
-- Eerste stap
-- Tweede stap
-- Derde stap
+- Maa kunst
