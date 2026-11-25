@@ -1,0 +1,27 @@
+# Instellingen voor Jekyll, dat GitHub Pages gebruikt om de site te bouwen.
+# Inhoud bewerk je niet hier, maar in Pages CMS (of in de map _onderwerpen).
+
+title: IDT
+
+# Elke pagina is een Markdown-bestand in _onderwerpen/<fase>/...
+# _onderwerpen/ontwerp-testen/vr-sketch.md wordt /ontwerp-testen/vr-sketch.html
+collections:
+  onderwerpen:
+    output: true
+    permalink: /:path.html
+
+defaults:
+  - scope:
+      path: ""
+      type: onderwerpen
+    values:
+      layout: pagina
+
+# Een enkele Enter in de tekst wordt een nieuwe regel, net als vroeger
+kramdown:
+  input: GFM
+  hard_wrap: true
+
+exclude:
+  - README.md
+  - vendor

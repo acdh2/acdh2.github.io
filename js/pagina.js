@@ -1,6 +1,10 @@
 /* =========================================================
    Pagina: bouwt de opmaak van de fasepagina's automatisch op.
 
+   De pagina's zelf worden door Jekyll gemaakt uit de Markdown-bestanden
+   in _onderwerpen (die je bewerkt in Pages CMS), met _layouts/pagina.html.
+   Losse HTML-pagina's zoals hieronder beschreven werken ook nog.
+
    Elke fase heeft een eigen map, bijvoorbeeld doelgroep-ontdekken/.
    Aan de naam van de map ziet dit script bij welke fase een pagina
    hoort (titel bovenin en kleur).
@@ -394,10 +398,24 @@
     blokken.forEach(function (el) { body.appendChild(el); });
   }
 
+  // Video's in HTML (zoals Jekyll die maakt uit Pages CMS):
+  // <div data-video="..."> uit het videoveld, of een alinea met alleen een videolink
+  function zetVideosOm(body) {
+    Array.prototype.slice.call(body.querySelectorAll('[data-video], p')).forEach(function (el) {
+      var isVeld = el.hasAttribute('data-video');
+      var adres = isVeld ? el.getAttribute('data-video').trim()
+        : (el.children.length <= 1 && !el.querySelector('img') ? el.textContent.trim() : '');
+      var video = adres ? leesVideo(adres) : null;
+      if (video) el.parentNode.replaceChild(maakVideo(video), el);
+      else if (isVeld) el.remove();
+    });
+  }
+
   // ---------- Onderwerp: titel, afbeelding, tekst en eventueel QR-code ----------
 
   function bouwOnderwerp(body) {
     if (isMarkdown(body)) zetMarkdownOm(body);
+    zetVideosOm(body);
 
     var titel = haalWeg(body.querySelector('h1'));
     var afbeelding = haalWeg(body.querySelector('img'));

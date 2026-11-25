@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <!-- Gemaakt door Jekyll uit _onderwerpen. js/pagina.js doet de opmaak. -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="{{ '/js/pagina.js' | relative_url }}"></script>
+</head>
+<body>
+{%- assign naam = page.relative_path | split: '/' | last -%}
+{%- if naam == 'index.md' -%}
+{%- comment -%}
+  Overzicht: een tegel voor elk bestand in deze map,
+  en voor elke submap met een index.md (een onderdeel met eigen overzicht).
+{%- endcomment -%}
+{%- assign mijnmap = page.relative_path | remove: 'index.md' -%}
+{%- assign lengte = mijnmap | size -%}
+{%- assign aantal = 0 %}
+<h1>{{ page.titel | escape }}</h1>
+{% assign alles = site.onderwerpen | sort: 'volgorde', 'last' -%}
+{%- for d in alles -%}
+  {%- if d.relative_path == page.relative_path -%}{%- continue -%}{%- endif -%}
+  {%- assign begin = d.relative_path | slice: 0, lengte -%}
+  {%- if begin != mijnmap -%}{%- continue -%}{%- endif -%}
+  {%- assign rest = d.relative_path | remove_first: mijnmap | split: '/' -%}
+  {%- if rest.size == 1 or rest.size == 2 and rest[1] == 'index.md' -%}
+    {%- assign tekst = d.tegeltitel | default: d.titel -%}
+    {%- assign beeld = d.tegelafbeelding | default: d.afbeelding -%}
+    {%- assign aantal = aantal | plus: 1 %}
+<a{% unless d.klaar == false %} href="{{ d.url | relative_url }}"{% endunless %}>{{ tekst | escape }}{% if beeld and beeld != '' %}<img src="{{ beeld | relative_url }}">{% endif %}</a>
+  {%- endif -%}
+{%- endfor %}
+{%- comment -%} Lege tegels tot er minstens zes zijn {%- endcomment -%}
+{%- assign van = aantal | plus: 1 -%}
+{%- for i in (van..6) %}
+<a>Onderwerp</a>
+{%- endfor %}
+{%- else %}
+<h1>{{ page.titel | escape }}</h1>
+{% if page.afbeelding and page.afbeelding != '' %}<img src="{{ page.afbeelding | relative_url }}" alt="{{ page.afbeelding_beschrijving | escape }}">{% endif %}
+{% if page.video and page.video != '' %}<div data-video="{{ page.video | strip | escape }}"></div>{% endif %}
+{{ content }}
+{% if page.link and page.link != '' %}<a href="{{ page.link | strip | escape }}">{{ page.link_tekst | escape }}</a>{% endif %}
+{%- endif %}
+</body>
+</html>
