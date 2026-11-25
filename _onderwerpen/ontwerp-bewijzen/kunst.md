@@ -1,15 +1,16 @@
 ---
-titel: kunst
+titel: Kunst
+afbeelding: /media/art-2d2dc1.jpg
 geavanceerd:
   - volgorde: 5
 ---
 
-## Wat is het?
+## Maak iets moois
 
-Vertel hier in een paar zinnen waar het over gaat.
+Maak iets dat interessant is.
 
 ## Hoe werkt het?
 
-- Eerste stap
-- Tweede stap
-- Derde stap
+- Bedenk iets interessants
+- Maak het
+- Laat het zien
