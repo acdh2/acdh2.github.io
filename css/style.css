@@ -328,6 +328,31 @@ body.fasepagina {
   border-radius: 1.25rem;
 }
 
+/* Video: altijd 16:9 over de volle breedte van het tekstvlak */
+.onderwerp-video {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%;
+  border-radius: 1.25rem;
+  overflow: hidden;
+  background: #000000;
+}
+
+.onderwerp-video iframe,
+.onderwerp-video video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.card-text * + .onderwerp-video,
+.card-text .onderwerp-video + * {
+  margin-top: 1rem;
+}
+
 /* Tekst: koppen, alinea's en lijstjes */
 .card-text h2,
 .card-text h3 {

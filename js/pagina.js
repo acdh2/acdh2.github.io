@@ -30,6 +30,8 @@
         - punt  of  * punt    1. genummerd punt     **vet**  *schuin*
         foto.png              (regel met alleen een afbeelding)
         ![beschrijving](foto.png)
+        https://youtu.be/...  (regel met alleen een YouTube- of Vimeo-link,
+                               of filmpje.mp4: een video)
         Tekst: https://...    (laatste regel met een link: QR-code)
         Een witregel begint een nieuwe alinea, een enkele Enter een nieuwe regel.
 
@@ -244,6 +246,45 @@
   // ---------- Markdown: platte tekst omzetten naar HTML ----------
 
   var AFBEELDING = /\.(png|jpe?g|gif|webp|svg)$/i;
+  var VIDEOBESTAND = /\.(mp4|webm|m4v|mov)$/i;
+
+  // Een regel met alleen een YouTube- of Vimeo-link, of een videobestand
+  // (filmpje.mp4), wordt een video. Geeft het adres om in te sluiten, of null.
+  function leesVideo(regel) {
+    if (/\s/.test(regel)) return null;
+    var m;
+    if ((m = regel.match(/^https?:\/\/(?:www\.|m\.)?(?:youtube\.com\/(?:watch\?(?:.*&)?v=|shorts\/|embed\/|live\/)|youtu\.be\/)([\w-]{11})/i))) {
+      var start = regel.match(/[?&](?:t|start)=(\d+)/);
+      return { soort: 'iframe', adres: 'https://www.youtube-nocookie.com/embed/' + m[1] +
+        '?rel=0&playsinline=1&modestbranding=1' + (start ? '&start=' + start[1] : '') };
+    }
+    if ((m = regel.match(/^https?:\/\/(?:www\.|player\.)?vimeo\.com\/(?:video\/)?(\d+)/i))) {
+      return { soort: 'iframe', adres: 'https://player.vimeo.com/video/' + m[1] };
+    }
+    if (VIDEOBESTAND.test(regel.split(/[?#]/)[0])) {
+      return { soort: 'video', adres: regel };
+    }
+    return null;
+  }
+
+  function maakVideo(video) {
+    var houder = maak('div', 'onderwerp-video');
+    var el;
+    if (video.soort === 'iframe') {
+      el = document.createElement('iframe');
+      el.setAttribute('allow', 'autoplay; fullscreen; encrypted-media; picture-in-picture');
+      el.setAttribute('allowfullscreen', '');
+      el.setAttribute('frameborder', '0');
+    } else {
+      el = document.createElement('video');
+      el.controls = true;
+      el.setAttribute('playsinline', '');
+      el.setAttribute('preload', 'metadata');
+    }
+    el.setAttribute('src', video.adres);
+    houder.appendChild(el);
+    return houder;
+  }
 
   // De tekst die los in de body staat (opmerkingen tellen niet mee)
   function losseTekst(body) {
@@ -297,20 +338,24 @@
     var regels = losseTekst(body).split(/\r?\n/).map(function (r) { return r.trim(); });
     while (regels.length && !regels[regels.length - 1]) regels.pop();
 
-    var link = regels.length ? leesLink(regels[regels.length - 1]) : null;
+    var laatste = regels.length ? regels[regels.length - 1] : '';
+    var link = laatste && !leesVideo(laatste) ? leesLink(laatste) : null;
     if (link) regels.pop();
 
     var blokken = [];
     var alinea = null, lijst = null;
 
     regels.forEach(function (regel) {
-      var m;
+      var m, video;
       if (!regel) {
         // Witregel: nieuwe alinea of nieuwe lijst
         alinea = lijst = null;
       } else if ((m = regel.match(/^(#{1,3})\s+(.*)$/))) {
         alinea = lijst = null;
         blokken.push(maakRegel('h' + m[1].length, m[2]));
+      } else if ((video = leesVideo(regel))) {
+        alinea = lijst = null;
+        blokken.push(maakVideo(video));
       } else if ((m = regel.match(/^!\[(.*)\]\((\S+)\)$/)) || (AFBEELDING.test(regel) && !/\s/.test(regel))) {
         alinea = lijst = null;
         var img = document.createElement('img');
