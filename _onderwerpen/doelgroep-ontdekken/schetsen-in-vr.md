@@ -1,15 +1,17 @@
 ---
 titel: Schetsen in VR
+afbeelding: /media/lol-31c78f.jpg
+link_tekst: http://duckduckgo.com
 geavanceerd:
   - volgorde: 7
 ---
 
-## Wat is het?
+## Neon Paint AR
 
-Vertel hier in een paar zinnen waar het over gaat.
+Je kunt met deze app samen in de ruimte schetsen en ontwerpen.
 
 ## Hoe werkt het?
 
-- Eerste stap
-- Tweede stap
-- Derde stap
+- Leen de Quest 3 brillen
+- Open de Neon Paint AR app
+- Volg de stappen om het ontwerp te maken
