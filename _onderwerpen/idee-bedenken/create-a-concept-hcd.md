@@ -1,5 +1,6 @@
 ---
 titel: "Create a Concept (HCD)"
-volgorde: 2
-klaar: false
+geavanceerd:
+  - volgorde: 2
+    klaar: false
 ---

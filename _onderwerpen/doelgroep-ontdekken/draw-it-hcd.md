@@ -1,5 +1,6 @@
 ---
 titel: "Draw it (HCD)"
-volgorde: 5
-klaar: false
+geavanceerd:
+  - volgorde: 5
+    klaar: false
 ---

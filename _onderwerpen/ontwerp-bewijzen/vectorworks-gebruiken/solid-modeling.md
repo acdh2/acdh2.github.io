@@ -1,9 +1,10 @@
 ---
 titel: "Solid modeling"
-volgorde: 4
-tegelafbeelding: "/media/solid-modeling.jpg"
 link_tekst: "Tutorial “Let’s model a 3D solid object”:"
 link: "https://app-help.vectorworks.net/2026/eng/VW2026_Guide/QuickStart/3DSolid/Quick_Start_Lets_model_3D_solid.htm"
+geavanceerd:
+  - volgorde: 4
+    tegelafbeelding: "/media/solid-modeling.jpg"
 ---
 
 ## Wat is dit?

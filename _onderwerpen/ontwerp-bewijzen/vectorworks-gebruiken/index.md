@@ -1,5 +1,6 @@
 ---
 titel: "Vectorworks gebruiken"
-volgorde: 1
-tegelafbeelding: "/media/vectorworks-gebruiken.jpg"
+geavanceerd:
+  - volgorde: 1
+    tegelafbeelding: "/media/vectorworks-gebruiken.jpg"
 ---

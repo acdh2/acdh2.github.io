@@ -1,8 +1,9 @@
 ---
 titel: "Technische tekening op schaal"
-volgorde: 8
 link_tekst: "Tutorial “Let’s add some dimensions”:"
 link: "https://app-help.vectorworks.net/2026/eng/VW2026_Guide/QuickStart/Dimension/Quick_Start_Lets_add_some_dimensions.htm"
+geavanceerd:
+  - volgorde: 8
 ---
 
 ## Wat is dit?

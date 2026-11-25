@@ -1,5 +1,6 @@
 ---
 titel: "Immersion (HCD)"
-volgorde: 6
-klaar: false
+geavanceerd:
+  - volgorde: 6
+    klaar: false
 ---

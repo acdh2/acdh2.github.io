@@ -1,9 +1,10 @@
 ---
 titel: "Basisnavigatie"
-volgorde: 2
-tegelafbeelding: "/media/basisnavigatie.jpg"
 link_tekst: "Uitleg zoomen en navigeren:"
 link: "https://app-help.vectorworks.net/2026/eng/VW2026_Guide/Basic1/Zooming.htm"
+geavanceerd:
+  - volgorde: 2
+    tegelafbeelding: "/media/basisnavigatie.jpg"
 ---
 
 ## Wat is dit?

@@ -1,8 +1,9 @@
 ---
 titel: "Materialen maken en toepassen"
-volgorde: 5
 link_tekst: "Uitleg materialen maken:"
 link: "https://app-help.vectorworks.net/2026/eng/VW2026_Guide/Materials/Creating_materials.htm"
+geavanceerd:
+  - volgorde: 5
 ---
 
 ## Wat is dit?

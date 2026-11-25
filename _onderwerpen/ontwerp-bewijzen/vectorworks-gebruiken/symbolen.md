@@ -1,8 +1,9 @@
 ---
 titel: "Symbolen gebruiken"
-volgorde: 7
 link_tekst: "Uitleg symbolen:"
 link: "https://app-help.vectorworks.net/2026/eng/VW2026_Guide/Symbols/Concept_Vectorworks_symbols.htm"
+geavanceerd:
+  - volgorde: 7
 ---
 
 ## Wat is dit?

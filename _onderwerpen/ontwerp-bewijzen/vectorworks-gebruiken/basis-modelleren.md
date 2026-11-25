@@ -1,8 +1,9 @@
 ---
 titel: "Basis modelleren"
-volgorde: 3
 link_tekst: "Tutorial “Let’s design a house”:"
 link: "https://app-help.vectorworks.net/2026/eng/VW2026_Guide/QuickStart/House/Quick_Start_Lets_design_a_house.htm"
+geavanceerd:
+  - volgorde: 3
 ---
 
 ## Wat is dit?

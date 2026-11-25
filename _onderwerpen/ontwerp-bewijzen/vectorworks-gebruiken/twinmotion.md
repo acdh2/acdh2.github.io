@@ -1,8 +1,9 @@
 ---
 titel: "Exporteren naar Twinmotion"
-volgorde: 9
 link_tekst: "Uitleg Datasmith Direct Link:"
 link: "https://app-help.vectorworks.net/2026/eng/VW2026_Guide/Rendering2/Graphics_live_synchronization_with_Datasmith_Direct_Link.htm"
+geavanceerd:
+  - volgorde: 9
 ---
 
 ## Wat is dit?

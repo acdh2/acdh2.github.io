@@ -1,5 +1,6 @@
 ---
 titel: "Conversation (HCD)"
-volgorde: 4
-klaar: false
+geavanceerd:
+  - volgorde: 4
+    klaar: false
 ---

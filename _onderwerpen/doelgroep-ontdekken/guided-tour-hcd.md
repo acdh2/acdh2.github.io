@@ -1,5 +1,6 @@
 ---
 titel: "Guided tour (HCD)"
-volgorde: 3
-klaar: false
+geavanceerd:
+  - volgorde: 3
+    klaar: false
 ---

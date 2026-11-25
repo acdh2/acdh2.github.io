@@ -1,5 +1,6 @@
 ---
 titel: "A/B testing (DT & CMD)"
-volgorde: 2
-klaar: false
+geavanceerd:
+  - volgorde: 2
+    klaar: false
 ---

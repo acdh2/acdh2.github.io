@@ -1,8 +1,9 @@
 ---
 titel: "Observation (CMD)"
-volgorde: 2
 afbeelding: "/media/observation.png"
-afbeelding_beschrijving: "Iemand met een VR-bril op, naast een begeleider"
+geavanceerd:
+  - volgorde: 2
+    afbeelding_beschrijving: "Iemand met een VR-bril op, naast een begeleider"
 ---
 
 ## Wat heb je nodig?

@@ -1,5 +1,6 @@
 ---
 titel: "Co-creatie sessie (HCD)"
-volgorde: 4
-klaar: false
+geavanceerd:
+  - volgorde: 4
+    klaar: false
 ---

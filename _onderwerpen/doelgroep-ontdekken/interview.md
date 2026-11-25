@@ -1,8 +1,9 @@
 ---
 titel: "Interview (CMD)"
-volgorde: 1
 afbeelding: "/media/interview.jpg"
-afbeelding_beschrijving: "Voorbeeld afbeelding interview"
+geavanceerd:
+  - volgorde: 1
+    afbeelding_beschrijving: "Voorbeeld afbeelding interview"
 ---
 
 ## Wat is een interview?

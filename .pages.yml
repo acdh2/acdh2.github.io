@@ -23,11 +23,7 @@ content:
         filename: index.md
         hideDirs: nodes
       primary: titel
-      fields: [titel, volgorde, klaar]
-      sort: [volgorde, titel]
-      default:
-        sort: volgorde
-        order: asc
+      fields: [titel]
     fields:
       - name: titel
         label: Titel
@@ -35,34 +31,10 @@ content:
         required: true
         description: "Bovenaan de pagina en op de tegel in het overzicht."
 
-      - name: volgorde
-        label: Plek in het overzicht
-        type: number
-        description: "1 is de eerste tegel, 2 de tweede, enzovoort."
-
-      - name: klaar
-        label: Pagina is klaar
-        type: boolean
-        default: true
-        description: "Uit: de tegel staat wel in het overzicht, maar is nog niet aan te tikken."
-
       - name: afbeelding
         label: Afbeelding
         type: image
         description: "De grote afbeelding bovenaan de pagina. Wordt ook gebruikt op de tegel."
-
-      - name: afbeelding_beschrijving
-        label: Wat staat er op de afbeelding?
-        type: string
-        description: "Korte beschrijving voor wie de afbeelding niet kan zien. Mag leeg blijven."
-
-      - name: video
-        label: Video
-        type: string
-        description: "Plak een YouTube- of Vimeo-link. De video komt onder de afbeelding. Je kunt een videolink ook als losse regel in de tekst zetten."
-        pattern:
-          regex: "^(https?://.*(youtube\\.com|youtu\\.be|vimeo\\.com).*)?$"
-          message: "Gebruik een link van YouTube of Vimeo."
 
       - name: body
         label: Tekst
@@ -71,24 +43,58 @@ content:
           format: markdown
 
       - name: link_tekst
-        label: Kopje bij de QR-code
+        label: Kopje bij de link
         type: string
         description: "Bijvoorbeeld 'Meer informatie:'. Leeg laten mag."
 
       - name: link
-        label: Link (wordt een QR-code)
+        label: Link onderaan (wordt een QR-code)
         type: string
-        description: "Van deze link maakt de pagina automatisch een QR-code. Laat leeg als er geen QR-code nodig is."
+        description: "Van deze link maakt de pagina automatisch een QR-code. Laat leeg als er geen link nodig is."
         pattern:
           regex: "^(https?://\\S+)?$"
           message: "Begin met https:// en gebruik geen spaties."
 
-      - name: tegeltitel
-        label: Andere tekst op de tegel
-        type: string
-        description: "Alleen invullen als op de tegel iets anders moet staan dan de titel."
+      - name: geavanceerd
+        label: Geavanceerd
+        type: object
+        description: "Volgorde, video, tegel en meer. Meestal niet nodig."
+        list:
+          max: 1
+          collapsible:
+            collapsed: true
+            summary: "Geavanceerde instellingen"
+        fields:
+          - name: volgorde
+            label: Plek in het overzicht
+            type: number
+            description: "1 is de eerste tegel, 2 de tweede, enzovoort. Leeg: achteraan."
 
-      - name: tegelafbeelding
-        label: Andere afbeelding op de tegel
-        type: image
-        description: "Alleen nodig als de tegel een andere afbeelding moet krijgen dan de pagina. Liefst liggend (16:9, bijvoorbeeld 800 x 450), met het belangrijkste in het midden."
+          - name: klaar
+            label: Pagina is klaar
+            type: boolean
+            default: true
+            description: "Uit: de tegel staat wel in het overzicht, maar is nog niet aan te tikken."
+
+          - name: video
+            label: Video
+            type: string
+            description: "Plak een YouTube- of Vimeo-link. De video komt onder de afbeelding. Een videolink als losse regel in de tekst werkt ook."
+            pattern:
+              regex: "^(https?://.*(youtube\\.com|youtu\\.be|vimeo\\.com).*)?$"
+              message: "Gebruik een link van YouTube of Vimeo."
+
+          - name: afbeelding_beschrijving
+            label: Wat staat er op de afbeelding?
+            type: string
+            description: "Korte beschrijving voor wie de afbeelding niet kan zien."
+
+          - name: tegeltitel
+            label: Andere tekst op de tegel
+            type: string
+            description: "Alleen invullen als op de tegel iets anders moet staan dan de titel."
+
+          - name: tegelafbeelding
+            label: Andere afbeelding op de tegel
+            type: image
+            description: "Alleen nodig als de tegel een andere afbeelding moet krijgen dan de pagina. Liefst liggend (16:9), met het belangrijkste in het midden."

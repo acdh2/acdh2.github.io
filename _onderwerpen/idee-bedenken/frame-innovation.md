@@ -1,7 +1,8 @@
 ---
 titel: "Frame Innovation"
-volgorde: 1
-tegelafbeelding: "/media/frameinnovation.png"
+geavanceerd:
+  - volgorde: 1
+    tegelafbeelding: "/media/frameinnovation.png"
 ---
 
 ## Kernvraag: Kijken we op de juiste manier naar dit probleem?

@@ -1,9 +1,10 @@
 ---
 titel: "Installeren"
-volgorde: 1
-tegelafbeelding: "/media/installeren.jpg"
 link_tekst: "Licentie aanvragen en meer informatie:"
 link: "https://www.vectorworks.net/education"
+geavanceerd:
+  - volgorde: 1
+    tegelafbeelding: "/media/installeren.jpg"
 ---
 
 ## Wat is dit?

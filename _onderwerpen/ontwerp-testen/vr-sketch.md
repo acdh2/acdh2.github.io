@@ -1,9 +1,10 @@
 ---
 titel: "VR Sketch"
-volgorde: 1
 afbeelding: "/media/observation.png"
-afbeelding_beschrijving: "Iemand met een VR-bril op, naast een begeleider"
 link: "https://vrsketch.eu/"
+geavanceerd:
+  - volgorde: 1
+    afbeelding_beschrijving: "Iemand met een VR-bril op, naast een begeleider"
 ---
 
 VR Sketch is een extensie voor SketchUp waarmee je snel je verhouding kan zien van je ontwerp.

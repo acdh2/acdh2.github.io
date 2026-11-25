@@ -7,38 +7,54 @@
   <script src="{{ '/js/pagina.js' | relative_url }}"></script>
 </head>
 <body>
+{%- comment -%}
+  De velden onder "Geavanceerd" in Pages CMS staan in page.geavanceerd
+  (een lijst met hooguit één item).
+{%- endcomment -%}
 {%- assign naam = page.relative_path | split: '/' | last -%}
 {%- if naam == 'index.md' -%}
 {%- comment -%}
   Overzicht: een tegel voor elk bestand in deze map,
   en voor elke submap met een index.md (een onderdeel met eigen overzicht).
+  Sortering op Geavanceerd > Plek in het overzicht; zonder nummer achteraan.
 {%- endcomment -%}
 {%- assign mijnmap = page.relative_path | remove: 'index.md' -%}
 {%- assign lengte = mijnmap | size -%}
-{%- assign aantal = 0 %}
-<h1>{{ page.titel | escape }}</h1>
-{% assign alles = site.onderwerpen | sort: 'volgorde', 'last' -%}
-{%- for d in alles -%}
+{%- assign sleutels = '' | split: '' -%}
+{%- for d in site.onderwerpen -%}
   {%- if d.relative_path == page.relative_path -%}{%- continue -%}{%- endif -%}
   {%- assign begin = d.relative_path | slice: 0, lengte -%}
   {%- if begin != mijnmap -%}{%- continue -%}{%- endif -%}
   {%- assign rest = d.relative_path | remove_first: mijnmap | split: '/' -%}
   {%- if rest.size == 1 or rest.size == 2 and rest[1] == 'index.md' -%}
-    {%- assign tekst = d.tegeltitel | default: d.titel -%}
-    {%- assign beeld = d.tegelafbeelding | default: d.afbeelding -%}
-    {%- assign aantal = aantal | plus: 1 %}
-<a{% unless d.klaar == false %} href="{{ d.url | relative_url }}"{% endunless %}>{{ tekst | escape }}{% if beeld and beeld != '' %}<img src="{{ beeld | relative_url }}">{% endif %}</a>
+    {%- assign g = d.geavanceerd | first -%}
+    {%- assign plek = g.volgorde | default: 9999 | plus: 100000 -%}
+    {%- assign sleutel = plek | append: '|' | append: d.relative_path -%}
+    {%- assign sleutels = sleutels | push: sleutel -%}
   {%- endif -%}
+{%- endfor -%}
+{%- assign sleutels = sleutels | sort -%}
+{%- assign aantal = 0 %}
+<h1>{{ page.titel | escape }}</h1>
+{% for sleutel in sleutels -%}
+  {%- assign pad = sleutel | split: '|' | last -%}
+  {%- assign d = site.onderwerpen | where: 'relative_path', pad | first -%}
+  {%- assign g = d.geavanceerd | first -%}
+  {%- assign tekst = g.tegeltitel | default: d.titel -%}
+  {%- assign beeld = g.tegelafbeelding | default: d.afbeelding -%}
+  {%- assign aantal = aantal | plus: 1 %}
+<a{% unless g.klaar == false %} href="{{ d.url | relative_url }}"{% endunless %}>{{ tekst | escape }}{% if beeld and beeld != '' %}<img src="{{ beeld | relative_url }}">{% endif %}</a>
 {%- endfor %}
 {%- comment -%} Lege tegels tot er minstens zes zijn {%- endcomment -%}
 {%- assign van = aantal | plus: 1 -%}
 {%- for i in (van..6) %}
 <a>Onderwerp</a>
 {%- endfor %}
-{%- else %}
+{%- else -%}
+{%- assign g = page.geavanceerd | first %}
 <h1>{{ page.titel | escape }}</h1>
-{% if page.afbeelding and page.afbeelding != '' %}<img src="{{ page.afbeelding | relative_url }}" alt="{{ page.afbeelding_beschrijving | escape }}">{% endif %}
-{% if page.video and page.video != '' %}<div data-video="{{ page.video | strip | escape }}"></div>{% endif %}
+{% if page.afbeelding and page.afbeelding != '' %}<img src="{{ page.afbeelding | relative_url }}" alt="{{ g.afbeelding_beschrijving | escape }}">{% endif %}
+{% if g.video and g.video != '' %}<div data-video="{{ g.video | strip | escape }}"></div>{% endif %}
 {{ content }}
 {% if page.link and page.link != '' %}<a href="{{ page.link | strip | escape }}">{{ page.link_tekst | escape }}</a>{% endif %}
 {%- endif %}

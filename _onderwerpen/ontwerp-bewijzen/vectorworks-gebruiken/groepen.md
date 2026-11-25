@@ -1,9 +1,10 @@
 ---
 titel: "Groepen gebruiken"
-volgorde: 6
-tegelafbeelding: "/media/groepen.jpg"
 link_tekst: "Uitleg groeperen:"
 link: "https://app-help.vectorworks.net/2026/eng/VW2026_Guide/Objects_edit1/Grouping%20objects.htm"
+geavanceerd:
+  - volgorde: 6
+    tegelafbeelding: "/media/groepen.jpg"
 ---
 
 ## Wat is dit?

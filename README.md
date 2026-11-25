@@ -6,12 +6,19 @@ Startpagina met het ontwerpwiel, per fase een overzicht met tegels, en per tegel
 
 Ga naar **https://app.pagescms.org**, log in en open deze repository. Onder **Pagina's** staan de vijf fases.
 
+Een pagina heeft vier gewone velden: **Titel**, **Afbeelding**, **Tekst** en **Link onderaan** (wordt een QR-code). De rest staat ingeklapt onder **Geavanceerd**.
+
 - **Pagina bewerken:** klik op de pagina, pas de velden aan en klik op **Save**. Na een minuut of twee staat de wijziging op het scherm.
-- **Pagina toevoegen:** klik op het **+** naast een fase (of naast "Vectorworks gebruiken"). Vul de titel in en zet bij **Plek in het overzicht** het nummer van de tegel.
+- **Pagina toevoegen:** klik op het **+** naast een fase (of naast "Vectorworks gebruiken") en vul de titel in. Een nieuwe pagina komt achteraan in het overzicht.
 - **Afbeelding toevoegen of vervangen:** klik in het veld **Afbeelding** en upload een nieuwe, of kies er een uit **Media**.
-- **Link en QR-code:** vul **Link (wordt een QR-code)** in. De QR-code wordt automatisch gemaakt.
-- **Video:** plak een YouTube- of Vimeo-link in het veld **Video**, of als losse regel in de tekst.
-- **Tegel die nog niet af is:** zet **Pagina is klaar** uit. De tegel staat dan wel in het overzicht, maar is niet aan te tikken.
+- **Link en QR-code:** vul **Link onderaan** in. De QR-code wordt automatisch gemaakt.
+- **Video:** plak een YouTube- of Vimeo-link als losse regel in de tekst, of onder **Geavanceerd > Video**.
+
+Onder **Geavanceerd** (openklappen, of bij een nieuwe pagina op de knop om het toe te voegen):
+
+- **Plek in het overzicht:** 1 is de eerste tegel. Leeg: achteraan.
+- **Pagina is klaar:** uit betekent dat de tegel wel in het overzicht staat, maar nog niet aan te tikken is.
+- **Andere tekst of afbeelding op de tegel**, en een beschrijving van de afbeelding.
 
 Een overzicht vult zichzelf aan tot minstens zes tegels. Ontbreken er tegels, dan verschijnen er lege tegels met "Onderwerp".
 
